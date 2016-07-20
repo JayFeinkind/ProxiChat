@@ -1,0 +1,9 @@
+C:\ProxiChat\ProxiChatDB\ProxiChatDB\bin\Debug\ProxiChatDB.dacpac
+C:\ProxiChat\ProxiChatDB\ProxiChatDB\bin\Debug\ProxiChatDB.dll
+C:\ProxiChat\ProxiChatDB\ProxiChatDB\bin\Debug\ProxiChatDB.pdb
+C:\ProxiChat\ProxiChatDB\ProxiChatDB\obj\Debug\Model.xml
+C:\ProxiChat\ProxiChatDB\ProxiChatDB\obj\Debug\refactor.xml
+C:\ProxiChat\ProxiChatDB\ProxiChatDB\obj\Debug\postdeploy.sql
+C:\ProxiChat\ProxiChatDB\ProxiChatDB\obj\Debug\predeploy.sql
+C:\ProxiChat\ProxiChatDB\ProxiChatDB\obj\Debug\ProxiChatDB.dll
+C:\ProxiChat\ProxiChatDB\ProxiChatDB\obj\Debug\ProxiChatDB.pdb
