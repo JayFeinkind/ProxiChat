@@ -52,9 +52,12 @@
     <Compile Include="BaseRepository.cs" />
     <Compile Include="IBaseRepository.cs" />
     <Compile Include="IRepositoryResult.cs" />
+    <Compile Include="IResourceMapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RepositoryResult.cs" />
     <Compile Include="Resource.cs" />
+    <Compile Include="ResultCode.cs" />
+    <Compile Include="ResultCodeExtenstions.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

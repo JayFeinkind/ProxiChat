@@ -128,6 +128,8 @@ C:\ProxiChat\ProxyChatService\ProxyChatService\bin\Microsoft.Owin.Security.Twitt
 C:\ProxiChat\ProxyChatService\ProxyChatService\bin\Microsoft.Web.Infrastructure.dll
 C:\ProxiChat\ProxyChatService\ProxyChatService\bin\Newtonsoft.Json.dll
 C:\ProxiChat\ProxyChatService\ProxyChatService\bin\Owin.dll
+C:\ProxiChat\ProxyChatService\ProxyChatService\bin\ProxyChat.Accounts.dll
+C:\ProxiChat\ProxyChatService\ProxyChatService\bin\ProxyChat.Domain.dll
 C:\ProxiChat\ProxyChatService\ProxyChatService\bin\System.Net.Http.Formatting.dll
 C:\ProxiChat\ProxyChatService\ProxyChatService\bin\System.Web.Helpers.dll
 C:\ProxiChat\ProxyChatService\ProxyChatService\bin\System.Web.Http.dll
@@ -139,6 +141,8 @@ C:\ProxiChat\ProxyChatService\ProxyChatService\bin\System.Web.WebPages.Deploymen
 C:\ProxiChat\ProxyChatService\ProxyChatService\bin\System.Web.WebPages.dll
 C:\ProxiChat\ProxyChatService\ProxyChatService\bin\System.Web.WebPages.Razor.dll
 C:\ProxiChat\ProxyChatService\ProxyChatService\bin\WebGrease.dll
+C:\ProxiChat\ProxyChatService\ProxyChatService\bin\ProxyChat.Accounts.pdb
+C:\ProxiChat\ProxyChatService\ProxyChatService\bin\ProxyChat.Domain.pdb
 C:\ProxiChat\ProxyChatService\ProxyChatService\bin\Microsoft.AI.DependencyCollector.xml
 C:\ProxiChat\ProxyChatService\ProxyChatService\bin\Microsoft.AI.ServerTelemetryChannel.xml
 C:\ProxiChat\ProxyChatService\ProxyChatService\bin\Microsoft.AI.Web.xml

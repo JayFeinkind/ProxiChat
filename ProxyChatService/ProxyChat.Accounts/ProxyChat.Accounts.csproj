@@ -52,6 +52,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Dtos\UserDto.cs" />
+    <Compile Include="Mappers\UserMapper.cs" />
     <Compile Include="Models\AccountsContext.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>

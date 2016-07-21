@@ -10,7 +10,10 @@ namespace ProxyChat.Domain
 {
     public interface IBaseRepository<IDBContext, TEntity, TDto>
     {
-        IQueryable<TEntity> ReadAll();
-        IQueryable<TEntity> ReadAll(params Expression<Func<TEntity, object>>[] relatedEntities);
+        IRepositoryResult<TDto> Create(TDto dto);
+        IRepositoryResult<IList<TDto>> ReadAll();
+        IRepositoryResult<IList<TDto>> ReadAll(params Expression<Func<TEntity, object>>[] relatedEntities);
+        IRepositoryResult<IList<TDto>> ReadAll(Func<TEntity, bool> whereClause);
+        IRepositoryResult<IList<TDto>> ReadAll(Func<TEntity, bool> whereClause, params Expression<Func<TEntity, object>>[] relatedEntities);
     }
 }
