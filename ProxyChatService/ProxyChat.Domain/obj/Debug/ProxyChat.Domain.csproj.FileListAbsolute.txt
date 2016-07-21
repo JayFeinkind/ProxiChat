@@ -1,9 +1,0 @@
-C:\ProxiChat\ProxyChatService\ProxyChat.Domain\bin\Debug\ProxyChat.Domain.dll.config
-C:\ProxiChat\ProxyChatService\ProxyChat.Domain\bin\Debug\ProxyChat.Domain.dll
-C:\ProxiChat\ProxyChatService\ProxyChat.Domain\bin\Debug\ProxyChat.Domain.pdb
-C:\ProxiChat\ProxyChatService\ProxyChat.Domain\bin\Debug\EntityFramework.dll
-C:\ProxiChat\ProxyChatService\ProxyChat.Domain\bin\Debug\EntityFramework.SqlServer.dll
-C:\ProxiChat\ProxyChatService\ProxyChat.Domain\bin\Debug\EntityFramework.xml
-C:\ProxiChat\ProxyChatService\ProxyChat.Domain\bin\Debug\EntityFramework.SqlServer.xml
-C:\ProxiChat\ProxyChatService\ProxyChat.Domain\obj\Debug\ProxyChat.Domain.dll
-C:\ProxiChat\ProxyChatService\ProxyChat.Domain\obj\Debug\ProxyChat.Domain.pdb
