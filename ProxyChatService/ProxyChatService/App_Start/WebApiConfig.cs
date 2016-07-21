@@ -15,11 +15,17 @@ namespace ProxyChatService
             config.MapHttpAttributeRoutes();
 
            config.Routes.MapHttpRoute(
-                name: "UserApi",
+                name: "DefaultApi",
                 routeTemplate: "api/{controller}/{action}"
             );
 
-           
+            config.Routes.MapHttpRoute(
+                name: "Activation",
+                routeTemplate: "api/Activate",
+                defaults: new { controller = "Activation", action = "Activation" }
+                );
+
+
             //config.Routes.MapHttpRoute(
             //    name: "DefaultApi",
             //    routeTemplate: "api/{controller}/{id}",

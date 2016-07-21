@@ -17,26 +17,36 @@ namespace ProxyChatService.Controllers
 {
     public class ActivationController : ProxyChatApiController
     {
+        UserRepository _userRepository = new UserRepository();
+
         public ActivationController()
-        { }
+        {
+        }
+
+        [HttpPost]
+        public HttpResponseMessage LogIn(string UserName, string Password)
+        {
+            return null;
+        }
 
         [HttpPost]
         public HttpResponseMessage Activation(UserDto User)
         {
-            var response = new HttpResponseMessage();
-            response.StatusCode = HttpStatusCode.Created;
-
-            IUserRepository<AccountsContext, User, UserDto> repository = new UserRepository();
-
-            var createResult = repository.Create(User);
-        
-
-            if (createResult.ResultCode != ResultCode.Created)
+            try
             {
-                return Request.CreateResponse(createResult.ResultCode.ToHttpStatusCode(), createResult.ResultDescription);
-            }
+                var createResult = _userRepository.Create(User);
 
-            return Request.CreateResponse(HttpStatusCode.OK, createResult.ResultData, "application/json");
+                if (createResult.ResultCode != ResultCode.Created)
+                {
+                    return Request.CreateResponse(createResult.ResultCode.ToHttpStatusCode(), createResult.ResultDescription);
+                }
+
+                return Request.CreateResponse(HttpStatusCode.Created, createResult.ResultData, "application/json");
+            }
+            catch (Exception e)
+            {
+                throw CreateResponseException(HttpStatusCode.InternalServerError, "Error encountered: " + e.Message);
+            }
         }
     }
 }

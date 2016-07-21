@@ -20,6 +20,7 @@ namespace ProxyChat.Accounts.Mappers
         {
             User entity = new User();
 
+            entity.Id = dto.Id;
             entity.CreatedUTC = dto.CreatedUTC;
             entity.EmailAddress = dto.EmailAddress;
             entity.FirstName = dto.FirstName;
@@ -40,6 +41,7 @@ namespace ProxyChat.Accounts.Mappers
             UserDto dto = new UserDto();
             dto.CreatedUTC = DateTime.SpecifyKind(entity.CreatedUTC, DateTimeKind.Utc);
             dto.DeviceTokens = entity.DeviceTokens;
+            dto.Id = entity.Id;
             dto.EmailAddress = entity.EmailAddress;
             dto.FirstName = entity.FirstName;
             dto.LastName = entity.LastName;
