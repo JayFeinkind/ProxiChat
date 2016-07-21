@@ -1,0 +1,12 @@
+C:\ProxiChat\ProxyChatService\ProxyChat.Accounts\bin\Debug\ProxyChat.Accounts.dll.config
+C:\ProxiChat\ProxyChatService\ProxyChat.Accounts\bin\Debug\ProxyChat.Accounts.dll
+C:\ProxiChat\ProxyChatService\ProxyChat.Accounts\bin\Debug\ProxyChat.Accounts.pdb
+C:\ProxiChat\ProxyChatService\ProxyChat.Accounts\bin\Debug\EntityFramework.dll
+C:\ProxiChat\ProxyChatService\ProxyChat.Accounts\bin\Debug\EntityFramework.SqlServer.dll
+C:\ProxiChat\ProxyChatService\ProxyChat.Accounts\bin\Debug\ProxyChat.Domain.dll
+C:\ProxiChat\ProxyChatService\ProxyChat.Accounts\bin\Debug\ProxyChat.Domain.pdb
+C:\ProxiChat\ProxyChatService\ProxyChat.Accounts\bin\Debug\EntityFramework.xml
+C:\ProxiChat\ProxyChatService\ProxyChat.Accounts\bin\Debug\EntityFramework.SqlServer.xml
+C:\ProxiChat\ProxyChatService\ProxyChat.Accounts\obj\Debug\ProxyChat.Accounts.csprojResolveAssemblyReference.cache
+C:\ProxiChat\ProxyChatService\ProxyChat.Accounts\obj\Debug\ProxyChat.Accounts.dll
+C:\ProxiChat\ProxyChatService\ProxyChat.Accounts\obj\Debug\ProxyChat.Accounts.pdb

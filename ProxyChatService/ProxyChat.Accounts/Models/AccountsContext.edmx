@@ -1,0 +1,338 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Accounts.Models.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'ProxiChat.Accounts.DeviceLocations' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="DeviceLocations">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="CreatedUTC" />
+            <PropertyRef Name="Version" />
+            <PropertyRef Name="VersionNumber" />
+            <PropertyRef Name="Latitude" />
+            <PropertyRef Name="Longitude" />
+            <PropertyRef Name="DeviceId" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="CreatedUTC" Type="datetime2" Precision="7" Nullable="false" />
+          <Property Name="ModifiedUtc" Type="datetime2" Precision="7" />
+          <Property Name="Version" Type="timestamp" StoreGeneratedPattern="Computed" Nullable="false" />
+          <Property Name="VersionNumber" Type="bigint" StoreGeneratedPattern="Computed" Nullable="false" />
+          <Property Name="Latitude" Type="decimal" Precision="8" Scale="5" Nullable="false" />
+          <Property Name="Longitude" Type="decimal" Precision="8" Scale="5" Nullable="false" />
+          <Property Name="DeviceId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Devices">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CreatedUTC" Type="datetime2" Precision="7" Nullable="false" />
+          <Property Name="ModifiedUTC" Type="datetime2" Precision="7" />
+          <Property Name="Version" Type="timestamp" StoreGeneratedPattern="Computed" Nullable="false" />
+          <Property Name="VersionNumber" Type="bigint" StoreGeneratedPattern="Computed" Nullable="false" />
+          <Property Name="DeviceIdentifier" Type="nvarchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityType Name="DeviceTokens">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CreatedUTC" Type="datetime2" Precision="7" Nullable="false" />
+          <Property Name="ModifiedUTC" Type="datetime2" Precision="7" />
+          <Property Name="Version" Type="timestamp" StoreGeneratedPattern="Computed" Nullable="false" />
+          <Property Name="VersionNumber" Type="bigint" StoreGeneratedPattern="Computed" Nullable="false" />
+          <Property Name="UserId" Type="int" Nullable="false" />
+          <Property Name="Token" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="DeviceId" Type="int" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CreatedUTC" Type="datetime2" Precision="7" Nullable="false" />
+          <Property Name="ModifiedUTC" Type="datetime2" Precision="7" />
+          <Property Name="Version" Type="timestamp" StoreGeneratedPattern="Computed" Nullable="false" />
+          <Property Name="VersionNumber" Type="bigint" StoreGeneratedPattern="Computed" Nullable="false" />
+          <Property Name="FirstName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="LastName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="50" />
+          <Property Name="EmailAddress" Type="nvarchar" MaxLength="100" />
+        </EntityType>
+        <Association Name="FK__DeviceLoc__Devic__5629CD9C">
+          <End Role="Devices" Type="Self.Devices" Multiplicity="1" />
+          <End Role="DeviceLocations" Type="Self.DeviceLocations" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Devices">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DeviceLocations">
+              <PropertyRef Name="DeviceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DeviceId_Devices">
+          <End Role="Devices" Type="Self.Devices" Multiplicity="0..1" />
+          <End Role="DeviceTokens" Type="Self.DeviceTokens" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Devices">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DeviceTokens">
+              <PropertyRef Name="DeviceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DeviceTokens_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="DeviceTokens" Type="Self.DeviceTokens" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DeviceTokens">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="AccountsModelsStoreContainer">
+          <EntitySet Name="Devices" EntityType="Self.Devices" Schema="Accounts" store:Type="Tables" />
+          <EntitySet Name="DeviceTokens" EntityType="Self.DeviceTokens" Schema="Accounts" store:Type="Tables" />
+          <EntitySet Name="Users" EntityType="Self.Users" Schema="Accounts" store:Type="Tables" />
+          <EntitySet Name="DeviceLocations" EntityType="Self.DeviceLocations" store:Type="Tables" store:Schema="Accounts">
+            <DefiningQuery>SELECT 
+    [DeviceLocations].[Id] AS [Id], 
+    [DeviceLocations].[CreatedUTC] AS [CreatedUTC], 
+    [DeviceLocations].[ModifiedUtc] AS [ModifiedUtc], 
+    [DeviceLocations].[Version] AS [Version], 
+    [DeviceLocations].[VersionNumber] AS [VersionNumber], 
+    [DeviceLocations].[Latitude] AS [Latitude], 
+    [DeviceLocations].[Longitude] AS [Longitude], 
+    [DeviceLocations].[DeviceId] AS [DeviceId]
+    FROM [Accounts].[DeviceLocations] AS [DeviceLocations]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK__DeviceLoc__Devic__5629CD9C" Association="Self.FK__DeviceLoc__Devic__5629CD9C">
+            <End Role="Devices" EntitySet="Devices" />
+            <End Role="DeviceLocations" EntitySet="DeviceLocations" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DeviceId_Devices" Association="Self.FK_DeviceId_Devices">
+            <End Role="Devices" EntitySet="Devices" />
+            <End Role="DeviceTokens" EntitySet="DeviceTokens" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DeviceTokens_Users" Association="Self.FK_DeviceTokens_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="DeviceTokens" EntitySet="DeviceTokens" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="Accounts.Models" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Device">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CreatedUTC" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="ModifiedUTC" Type="DateTime" Precision="7" />
+          <Property Name="Version" Type="Binary" MaxLength="8" FixedLength="true" Nullable="false" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="VersionNumber" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="DeviceIdentifier" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="DeviceLocations" Relationship="Self.FK__DeviceLoc__Devic__5629CD9C" FromRole="Devices" ToRole="DeviceLocations" />
+          <NavigationProperty Name="DeviceTokens" Relationship="Self.FK_DeviceId_Devices" FromRole="Devices" ToRole="DeviceTokens" />
+        </EntityType>
+        <EntityType Name="DeviceToken">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CreatedUTC" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="ModifiedUTC" Type="DateTime" Precision="7" />
+          <Property Name="Version" Type="Binary" MaxLength="8" FixedLength="true" Nullable="false" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="VersionNumber" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <Property Name="Token" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="DeviceId" Type="Int32" />
+          <NavigationProperty Name="Device" Relationship="Self.FK_DeviceId_Devices" FromRole="DeviceTokens" ToRole="Devices" />
+          <NavigationProperty Name="User" Relationship="Self.FK_DeviceTokens_Users" FromRole="DeviceTokens" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CreatedUTC" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="ModifiedUTC" Type="DateTime" Precision="7" />
+          <Property Name="Version" Type="Binary" MaxLength="8" FixedLength="true" Nullable="false" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="VersionNumber" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="UserName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="EmailAddress" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="DeviceTokens" Relationship="Self.FK_DeviceTokens_Users" FromRole="Users" ToRole="DeviceTokens" />
+        </EntityType>
+        <EntityType Name="DeviceLocation">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="CreatedUTC" />
+            <PropertyRef Name="Version" />
+            <PropertyRef Name="VersionNumber" />
+            <PropertyRef Name="Latitude" />
+            <PropertyRef Name="Longitude" />
+            <PropertyRef Name="DeviceId" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="CreatedUTC" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="ModifiedUtc" Type="DateTime" Precision="7" />
+          <Property Name="Version" Type="Binary" MaxLength="8" FixedLength="true" Nullable="false" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="VersionNumber" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="Latitude" Type="Decimal" Precision="8" Scale="5" Nullable="false" />
+          <Property Name="Longitude" Type="Decimal" Precision="8" Scale="5" Nullable="false" />
+          <Property Name="DeviceId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Device" Relationship="Self.FK__DeviceLoc__Devic__5629CD9C" FromRole="DeviceLocations" ToRole="Devices" />
+        </EntityType>
+        <Association Name="FK__DeviceLoc__Devic__5629CD9C">
+          <End Role="Devices" Type="Self.Device" Multiplicity="1" />
+          <End Role="DeviceLocations" Type="Self.DeviceLocation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Devices">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DeviceLocations">
+              <PropertyRef Name="DeviceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DeviceId_Devices">
+          <End Role="Devices" Type="Self.Device" Multiplicity="0..1" />
+          <End Role="DeviceTokens" Type="Self.DeviceToken" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Devices">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DeviceTokens">
+              <PropertyRef Name="DeviceId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DeviceTokens_Users">
+          <End Role="Users" Type="Self.User" Multiplicity="1" />
+          <End Role="DeviceTokens" Type="Self.DeviceToken" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DeviceTokens">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="AccountsContext" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Devices" EntityType="Self.Device" />
+          <EntitySet Name="DeviceTokens" EntityType="Self.DeviceToken" />
+          <EntitySet Name="Users" EntityType="Self.User" />
+          <EntitySet Name="DeviceLocations" EntityType="Self.DeviceLocation" />
+          <AssociationSet Name="FK__DeviceLoc__Devic__5629CD9C" Association="Self.FK__DeviceLoc__Devic__5629CD9C">
+            <End Role="Devices" EntitySet="Devices" />
+            <End Role="DeviceLocations" EntitySet="DeviceLocations" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DeviceId_Devices" Association="Self.FK_DeviceId_Devices">
+            <End Role="Devices" EntitySet="Devices" />
+            <End Role="DeviceTokens" EntitySet="DeviceTokens" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DeviceTokens_Users" Association="Self.FK_DeviceTokens_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="DeviceTokens" EntitySet="DeviceTokens" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="AccountsModelsStoreContainer" CdmEntityContainer="AccountsContext">
+          <EntitySetMapping Name="Devices">
+            <EntityTypeMapping TypeName="Accounts.Models.Device">
+              <MappingFragment StoreEntitySet="Devices">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="CreatedUTC" ColumnName="CreatedUTC" />
+                <ScalarProperty Name="ModifiedUTC" ColumnName="ModifiedUTC" />
+                <ScalarProperty Name="Version" ColumnName="Version" />
+                <ScalarProperty Name="VersionNumber" ColumnName="VersionNumber" />
+                <ScalarProperty Name="DeviceIdentifier" ColumnName="DeviceIdentifier" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DeviceTokens">
+            <EntityTypeMapping TypeName="Accounts.Models.DeviceToken">
+              <MappingFragment StoreEntitySet="DeviceTokens">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="CreatedUTC" ColumnName="CreatedUTC" />
+                <ScalarProperty Name="ModifiedUTC" ColumnName="ModifiedUTC" />
+                <ScalarProperty Name="Version" ColumnName="Version" />
+                <ScalarProperty Name="VersionNumber" ColumnName="VersionNumber" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="Token" ColumnName="Token" />
+                <ScalarProperty Name="DeviceId" ColumnName="DeviceId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="Accounts.Models.User">
+              <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="CreatedUTC" ColumnName="CreatedUTC" />
+                <ScalarProperty Name="ModifiedUTC" ColumnName="ModifiedUTC" />
+                <ScalarProperty Name="Version" ColumnName="Version" />
+                <ScalarProperty Name="VersionNumber" ColumnName="VersionNumber" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="EmailAddress" ColumnName="EmailAddress" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DeviceLocations">
+            <EntityTypeMapping TypeName="Accounts.Models.DeviceLocation">
+              <MappingFragment StoreEntitySet="DeviceLocations">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="CreatedUTC" ColumnName="CreatedUTC" />
+                <ScalarProperty Name="ModifiedUtc" ColumnName="ModifiedUtc" />
+                <ScalarProperty Name="Version" ColumnName="Version" />
+                <ScalarProperty Name="VersionNumber" ColumnName="VersionNumber" />
+                <ScalarProperty Name="Latitude" ColumnName="Latitude" />
+                <ScalarProperty Name="Longitude" ColumnName="Longitude" />
+                <ScalarProperty Name="DeviceId" ColumnName="DeviceId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

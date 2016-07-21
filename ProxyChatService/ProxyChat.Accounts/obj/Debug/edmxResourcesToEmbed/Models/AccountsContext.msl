@@ -1,0 +1,60 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="AccountsModelsStoreContainer" CdmEntityContainer="AccountsContext">
+    <EntitySetMapping Name="Devices">
+      <EntityTypeMapping TypeName="Accounts.Models.Device">
+        <MappingFragment StoreEntitySet="Devices">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="CreatedUTC" ColumnName="CreatedUTC" />
+          <ScalarProperty Name="ModifiedUTC" ColumnName="ModifiedUTC" />
+          <ScalarProperty Name="Version" ColumnName="Version" />
+          <ScalarProperty Name="VersionNumber" ColumnName="VersionNumber" />
+          <ScalarProperty Name="DeviceIdentifier" ColumnName="DeviceIdentifier" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="DeviceTokens">
+      <EntityTypeMapping TypeName="Accounts.Models.DeviceToken">
+        <MappingFragment StoreEntitySet="DeviceTokens">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="CreatedUTC" ColumnName="CreatedUTC" />
+          <ScalarProperty Name="ModifiedUTC" ColumnName="ModifiedUTC" />
+          <ScalarProperty Name="Version" ColumnName="Version" />
+          <ScalarProperty Name="VersionNumber" ColumnName="VersionNumber" />
+          <ScalarProperty Name="UserId" ColumnName="UserId" />
+          <ScalarProperty Name="Token" ColumnName="Token" />
+          <ScalarProperty Name="DeviceId" ColumnName="DeviceId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Users">
+      <EntityTypeMapping TypeName="Accounts.Models.User">
+        <MappingFragment StoreEntitySet="Users">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="CreatedUTC" ColumnName="CreatedUTC" />
+          <ScalarProperty Name="ModifiedUTC" ColumnName="ModifiedUTC" />
+          <ScalarProperty Name="Version" ColumnName="Version" />
+          <ScalarProperty Name="VersionNumber" ColumnName="VersionNumber" />
+          <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+          <ScalarProperty Name="LastName" ColumnName="LastName" />
+          <ScalarProperty Name="UserName" ColumnName="UserName" />
+          <ScalarProperty Name="EmailAddress" ColumnName="EmailAddress" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="DeviceLocations">
+      <EntityTypeMapping TypeName="Accounts.Models.DeviceLocation">
+        <MappingFragment StoreEntitySet="DeviceLocations">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="CreatedUTC" ColumnName="CreatedUTC" />
+          <ScalarProperty Name="ModifiedUtc" ColumnName="ModifiedUtc" />
+          <ScalarProperty Name="Version" ColumnName="Version" />
+          <ScalarProperty Name="VersionNumber" ColumnName="VersionNumber" />
+          <ScalarProperty Name="Latitude" ColumnName="Latitude" />
+          <ScalarProperty Name="Longitude" ColumnName="Longitude" />
+          <ScalarProperty Name="DeviceId" ColumnName="DeviceId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>
