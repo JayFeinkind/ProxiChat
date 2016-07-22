@@ -6,10 +6,14 @@
     [VersionNumber] AS             (isnull(CONVERT([bigint],[Version]),(0))) PERSISTED NOT NULL,
     [UserId]        INT            NOT NULL,
     [Token]         NVARCHAR (100) NOT NULL,
-    [DeviceId]      INT            NULL,
+    [DeviceId]      INT            NOT NULL,
     CONSTRAINT [PK__DeviceTokens] PRIMARY KEY CLUSTERED ([Id] ASC),
     CONSTRAINT [FK_DeviceId_Devices] FOREIGN KEY ([DeviceId]) REFERENCES [Accounts].[Devices] ([Id]),
     CONSTRAINT [FK_DeviceTokens_Users] FOREIGN KEY ([UserId]) REFERENCES [Accounts].[Users] ([Id]),
-    CONSTRAINT [IX_Token_DeviceId] UNIQUE NONCLUSTERED ([Token] ASC, [DeviceId] ASC)
+    CONSTRAINT [IX_DeviceId] UNIQUE NONCLUSTERED ([DeviceId] ASC)
 );
+
+
+
+
 

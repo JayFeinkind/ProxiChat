@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="Accounts.Models.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="Accounts.Models.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <!--Errors Found During Generation:
 warning 6002: The table/view 'ProxiChat.Accounts.DeviceLocations' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="DeviceLocations">
@@ -48,7 +48,7 @@ warning 6002: The table/view 'ProxiChat.Accounts.DeviceLocations' does not have 
           <Property Name="VersionNumber" Type="bigint" StoreGeneratedPattern="Computed" Nullable="false" />
           <Property Name="UserId" Type="int" Nullable="false" />
           <Property Name="Token" Type="nvarchar" MaxLength="100" Nullable="false" />
-          <Property Name="DeviceId" Type="int" />
+          <Property Name="DeviceId" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Users">
           <Key>
@@ -77,7 +77,7 @@ warning 6002: The table/view 'ProxiChat.Accounts.DeviceLocations' does not have 
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_DeviceId_Devices">
-          <End Role="Devices" Type="Self.Devices" Multiplicity="0..1" />
+          <End Role="Devices" Type="Self.Devices" Multiplicity="1" />
           <End Role="DeviceTokens" Type="Self.DeviceTokens" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Devices">
@@ -129,11 +129,28 @@ warning 6002: The table/view 'ProxiChat.Accounts.DeviceLocations' does not have 
             <End Role="DeviceTokens" EntitySet="DeviceTokens" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="Accounts.Models" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="AccountsContext" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Devices" EntityType="Accounts.Models.Device" />
+          <EntitySet Name="DeviceTokens" EntityType="Accounts.Models.DeviceToken" />
+          <EntitySet Name="Users" EntityType="Accounts.Models.User" />
+          <EntitySet Name="DeviceLocations" EntityType="Accounts.Models.DeviceLocation" />
+          <AssociationSet Name="FK__DeviceLoc__Devic__5629CD9C" Association="Accounts.Models.FK__DeviceLoc__Devic__5629CD9C">
+            <End Role="Device" EntitySet="Devices" />
+            <End Role="DeviceLocation" EntitySet="DeviceLocations" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DeviceId_Devices" Association="Accounts.Models.FK_DeviceId_Devices">
+            <End Role="Device" EntitySet="Devices" />
+            <End Role="DeviceToken" EntitySet="DeviceTokens" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DeviceTokens_Users" Association="Accounts.Models.FK_DeviceTokens_Users">
+            <End Role="User" EntitySet="Users" />
+            <End Role="DeviceToken" EntitySet="DeviceTokens" />
+          </AssociationSet>
+        </EntityContainer>
         <EntityType Name="Device">
           <Key>
             <PropertyRef Name="Id" />
@@ -141,11 +158,11 @@ warning 6002: The table/view 'ProxiChat.Accounts.DeviceLocations' does not have 
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="CreatedUTC" Type="DateTime" Nullable="false" Precision="7" />
           <Property Name="ModifiedUTC" Type="DateTime" Precision="7" />
-          <Property Name="Version" Type="Binary" MaxLength="8" FixedLength="true" Nullable="false" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="Version" Type="Binary" Nullable="false" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
           <Property Name="VersionNumber" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Computed" />
-          <Property Name="DeviceIdentifier" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="DeviceLocations" Relationship="Self.FK__DeviceLoc__Devic__5629CD9C" FromRole="Devices" ToRole="DeviceLocations" />
-          <NavigationProperty Name="DeviceTokens" Relationship="Self.FK_DeviceId_Devices" FromRole="Devices" ToRole="DeviceTokens" />
+          <Property Name="DeviceIdentifier" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="DeviceLocations" Relationship="Accounts.Models.FK__DeviceLoc__Devic__5629CD9C" FromRole="Device" ToRole="DeviceLocation" />
+          <NavigationProperty Name="DeviceTokens" Relationship="Accounts.Models.FK_DeviceId_Devices" FromRole="Device" ToRole="DeviceToken" />
         </EntityType>
         <EntityType Name="DeviceToken">
           <Key>
@@ -154,13 +171,13 @@ warning 6002: The table/view 'ProxiChat.Accounts.DeviceLocations' does not have 
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="CreatedUTC" Type="DateTime" Nullable="false" Precision="7" />
           <Property Name="ModifiedUTC" Type="DateTime" Precision="7" />
-          <Property Name="Version" Type="Binary" MaxLength="8" FixedLength="true" Nullable="false" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="Version" Type="Binary" Nullable="false" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
           <Property Name="VersionNumber" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Computed" />
           <Property Name="UserId" Type="Int32" Nullable="false" />
-          <Property Name="Token" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="DeviceId" Type="Int32" />
-          <NavigationProperty Name="Device" Relationship="Self.FK_DeviceId_Devices" FromRole="DeviceTokens" ToRole="Devices" />
-          <NavigationProperty Name="User" Relationship="Self.FK_DeviceTokens_Users" FromRole="DeviceTokens" ToRole="Users" />
+          <Property Name="Token" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="DeviceId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Device" Relationship="Accounts.Models.FK_DeviceId_Devices" FromRole="DeviceToken" ToRole="Device" />
+          <NavigationProperty Name="User" Relationship="Accounts.Models.FK_DeviceTokens_Users" FromRole="DeviceToken" ToRole="User" />
         </EntityType>
         <EntityType Name="User">
           <Key>
@@ -169,13 +186,13 @@ warning 6002: The table/view 'ProxiChat.Accounts.DeviceLocations' does not have 
           <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="CreatedUTC" Type="DateTime" Nullable="false" Precision="7" />
           <Property Name="ModifiedUTC" Type="DateTime" Precision="7" />
-          <Property Name="Version" Type="Binary" MaxLength="8" FixedLength="true" Nullable="false" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="Version" Type="Binary" Nullable="false" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
           <Property Name="VersionNumber" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Computed" />
-          <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="FirstName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="LastName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="UserName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="EmailAddress" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="DeviceTokens" Relationship="Self.FK_DeviceTokens_Users" FromRole="Users" ToRole="DeviceTokens" />
+          <NavigationProperty Name="DeviceTokens" Relationship="Accounts.Models.FK_DeviceTokens_Users" FromRole="User" ToRole="DeviceToken" />
         </EntityType>
         <EntityType Name="DeviceLocation">
           <Key>
@@ -190,67 +207,49 @@ warning 6002: The table/view 'ProxiChat.Accounts.DeviceLocations' does not have 
           <Property Name="Id" Type="Int32" Nullable="false" />
           <Property Name="CreatedUTC" Type="DateTime" Nullable="false" Precision="7" />
           <Property Name="ModifiedUtc" Type="DateTime" Precision="7" />
-          <Property Name="Version" Type="Binary" MaxLength="8" FixedLength="true" Nullable="false" annotation:StoreGeneratedPattern="Computed" />
+          <Property Name="Version" Type="Binary" Nullable="false" MaxLength="8" FixedLength="true" annotation:StoreGeneratedPattern="Computed" />
           <Property Name="VersionNumber" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Computed" />
-          <Property Name="Latitude" Type="Decimal" Precision="8" Scale="5" Nullable="false" />
-          <Property Name="Longitude" Type="Decimal" Precision="8" Scale="5" Nullable="false" />
+          <Property Name="Latitude" Type="Decimal" Nullable="false" Precision="8" Scale="5" />
+          <Property Name="Longitude" Type="Decimal" Nullable="false" Precision="8" Scale="5" />
           <Property Name="DeviceId" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Device" Relationship="Self.FK__DeviceLoc__Devic__5629CD9C" FromRole="DeviceLocations" ToRole="Devices" />
+          <NavigationProperty Name="Device" Relationship="Accounts.Models.FK__DeviceLoc__Devic__5629CD9C" FromRole="DeviceLocation" ToRole="Device" />
         </EntityType>
         <Association Name="FK__DeviceLoc__Devic__5629CD9C">
-          <End Role="Devices" Type="Self.Device" Multiplicity="1" />
-          <End Role="DeviceLocations" Type="Self.DeviceLocation" Multiplicity="*" />
+          <End Type="Accounts.Models.Device" Role="Device" Multiplicity="1" />
+          <End Type="Accounts.Models.DeviceLocation" Role="DeviceLocation" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Devices">
+            <Principal Role="Device">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="DeviceLocations">
+            <Dependent Role="DeviceLocation">
               <PropertyRef Name="DeviceId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_DeviceId_Devices">
-          <End Role="Devices" Type="Self.Device" Multiplicity="0..1" />
-          <End Role="DeviceTokens" Type="Self.DeviceToken" Multiplicity="*" />
+          <End Type="Accounts.Models.Device" Role="Device" Multiplicity="1" />
+          <End Type="Accounts.Models.DeviceToken" Role="DeviceToken" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Devices">
+            <Principal Role="Device">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="DeviceTokens">
+            <Dependent Role="DeviceToken">
               <PropertyRef Name="DeviceId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_DeviceTokens_Users">
-          <End Role="Users" Type="Self.User" Multiplicity="1" />
-          <End Role="DeviceTokens" Type="Self.DeviceToken" Multiplicity="*" />
+          <End Type="Accounts.Models.User" Role="User" Multiplicity="1" />
+          <End Type="Accounts.Models.DeviceToken" Role="DeviceToken" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Users">
+            <Principal Role="User">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="DeviceTokens">
+            <Dependent Role="DeviceToken">
               <PropertyRef Name="UserId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="AccountsContext" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="Devices" EntityType="Self.Device" />
-          <EntitySet Name="DeviceTokens" EntityType="Self.DeviceToken" />
-          <EntitySet Name="Users" EntityType="Self.User" />
-          <EntitySet Name="DeviceLocations" EntityType="Self.DeviceLocation" />
-          <AssociationSet Name="FK__DeviceLoc__Devic__5629CD9C" Association="Self.FK__DeviceLoc__Devic__5629CD9C">
-            <End Role="Devices" EntitySet="Devices" />
-            <End Role="DeviceLocations" EntitySet="DeviceLocations" />
-          </AssociationSet>
-          <AssociationSet Name="FK_DeviceId_Devices" Association="Self.FK_DeviceId_Devices">
-            <End Role="Devices" EntitySet="Devices" />
-            <End Role="DeviceTokens" EntitySet="DeviceTokens" />
-          </AssociationSet>
-          <AssociationSet Name="FK_DeviceTokens_Users" Association="Self.FK_DeviceTokens_Users">
-            <End Role="Users" EntitySet="Users" />
-            <End Role="DeviceTokens" EntitySet="DeviceTokens" />
-          </AssociationSet>
-        </EntityContainer>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -260,55 +259,55 @@ warning 6002: The table/view 'ProxiChat.Accounts.DeviceLocations' does not have 
           <EntitySetMapping Name="Devices">
             <EntityTypeMapping TypeName="Accounts.Models.Device">
               <MappingFragment StoreEntitySet="Devices">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="CreatedUTC" ColumnName="CreatedUTC" />
-                <ScalarProperty Name="ModifiedUTC" ColumnName="ModifiedUTC" />
-                <ScalarProperty Name="Version" ColumnName="Version" />
-                <ScalarProperty Name="VersionNumber" ColumnName="VersionNumber" />
                 <ScalarProperty Name="DeviceIdentifier" ColumnName="DeviceIdentifier" />
+                <ScalarProperty Name="VersionNumber" ColumnName="VersionNumber" />
+                <ScalarProperty Name="Version" ColumnName="Version" />
+                <ScalarProperty Name="ModifiedUTC" ColumnName="ModifiedUTC" />
+                <ScalarProperty Name="CreatedUTC" ColumnName="CreatedUTC" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="DeviceTokens">
             <EntityTypeMapping TypeName="Accounts.Models.DeviceToken">
               <MappingFragment StoreEntitySet="DeviceTokens">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="CreatedUTC" ColumnName="CreatedUTC" />
-                <ScalarProperty Name="ModifiedUTC" ColumnName="ModifiedUTC" />
-                <ScalarProperty Name="Version" ColumnName="Version" />
-                <ScalarProperty Name="VersionNumber" ColumnName="VersionNumber" />
-                <ScalarProperty Name="UserId" ColumnName="UserId" />
-                <ScalarProperty Name="Token" ColumnName="Token" />
                 <ScalarProperty Name="DeviceId" ColumnName="DeviceId" />
+                <ScalarProperty Name="Token" ColumnName="Token" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="VersionNumber" ColumnName="VersionNumber" />
+                <ScalarProperty Name="Version" ColumnName="Version" />
+                <ScalarProperty Name="ModifiedUTC" ColumnName="ModifiedUTC" />
+                <ScalarProperty Name="CreatedUTC" ColumnName="CreatedUTC" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Users">
             <EntityTypeMapping TypeName="Accounts.Models.User">
               <MappingFragment StoreEntitySet="Users">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="CreatedUTC" ColumnName="CreatedUTC" />
-                <ScalarProperty Name="ModifiedUTC" ColumnName="ModifiedUTC" />
-                <ScalarProperty Name="Version" ColumnName="Version" />
-                <ScalarProperty Name="VersionNumber" ColumnName="VersionNumber" />
-                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
-                <ScalarProperty Name="LastName" ColumnName="LastName" />
-                <ScalarProperty Name="UserName" ColumnName="UserName" />
                 <ScalarProperty Name="EmailAddress" ColumnName="EmailAddress" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="VersionNumber" ColumnName="VersionNumber" />
+                <ScalarProperty Name="Version" ColumnName="Version" />
+                <ScalarProperty Name="ModifiedUTC" ColumnName="ModifiedUTC" />
+                <ScalarProperty Name="CreatedUTC" ColumnName="CreatedUTC" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="DeviceLocations">
             <EntityTypeMapping TypeName="Accounts.Models.DeviceLocation">
               <MappingFragment StoreEntitySet="DeviceLocations">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="CreatedUTC" ColumnName="CreatedUTC" />
-                <ScalarProperty Name="ModifiedUtc" ColumnName="ModifiedUtc" />
-                <ScalarProperty Name="Version" ColumnName="Version" />
-                <ScalarProperty Name="VersionNumber" ColumnName="VersionNumber" />
-                <ScalarProperty Name="Latitude" ColumnName="Latitude" />
-                <ScalarProperty Name="Longitude" ColumnName="Longitude" />
                 <ScalarProperty Name="DeviceId" ColumnName="DeviceId" />
+                <ScalarProperty Name="Longitude" ColumnName="Longitude" />
+                <ScalarProperty Name="Latitude" ColumnName="Latitude" />
+                <ScalarProperty Name="VersionNumber" ColumnName="VersionNumber" />
+                <ScalarProperty Name="Version" ColumnName="Version" />
+                <ScalarProperty Name="ModifiedUtc" ColumnName="ModifiedUtc" />
+                <ScalarProperty Name="CreatedUTC" ColumnName="CreatedUTC" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

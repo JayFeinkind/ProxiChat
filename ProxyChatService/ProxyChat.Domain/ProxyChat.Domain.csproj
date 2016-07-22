@@ -58,6 +58,7 @@
     <Compile Include="Resource.cs" />
     <Compile Include="ResultCode.cs" />
     <Compile Include="ResultCodeExtenstions.cs" />
+    <Compile Include="Security.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

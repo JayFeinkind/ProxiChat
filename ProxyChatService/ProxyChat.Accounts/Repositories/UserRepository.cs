@@ -20,7 +20,7 @@ namespace ProxyChat.Accounts.Repositories
             }
         }
 
-        private bool ValidateDto(UserDto dto)
+        protected override bool ValidateDto(UserDto dto)
         {
             if (string.IsNullOrWhiteSpace(dto.FirstName)) return false;
             if (string.IsNullOrWhiteSpace(dto.LastName)) return false;

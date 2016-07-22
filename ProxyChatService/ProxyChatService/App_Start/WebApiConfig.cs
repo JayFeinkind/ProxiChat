@@ -25,6 +25,8 @@ namespace ProxyChatService
                 defaults: new { controller = "Activation", action = "Activation" }
                 );
 
+           
+
 
             //config.Routes.MapHttpRoute(
             //    name: "DefaultApi",

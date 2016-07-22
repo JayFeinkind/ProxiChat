@@ -12,6 +12,7 @@ using Newtonsoft.Json;
 
 using System.Net;
 using System.Text;
+using ProxyChatService.Models;
 
 namespace ProxyChatService.Controllers
 {
@@ -24,9 +25,24 @@ namespace ProxyChatService.Controllers
         }
 
         [HttpPost]
-        public HttpResponseMessage LogIn(string UserName, string Password)
+        public HttpResponseMessage LogIn(LogInModel model)
         {
-            return null;
+            try
+            {
+                var user = _userRepository.Read(u => u.UserName == model.UserName, u => u.DeviceTokens);
+
+                // TODO add password authenticate
+                if (user.ResultCode == ResultCode.NotFound)
+                {
+                    return Request.CreateResponse(HttpStatusCode.Forbidden);
+                }
+
+                return Request.CreateResponse(user.ResultCode.ToHttpStatusCode(), user.ResultData, "application/json");
+            }
+            catch (Exception e)
+            {
+                throw CreateResponseException(HttpStatusCode.InternalServerError, "Error encountered: " + e.Message);
+            }
         }
 
         [HttpPost]
