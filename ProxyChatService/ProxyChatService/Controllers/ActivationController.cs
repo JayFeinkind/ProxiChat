@@ -19,6 +19,7 @@ namespace ProxyChatService.Controllers
     public class ActivationController : ProxyChatApiController
     {
         UserRepository _userRepository = new UserRepository();
+        MembershipRepository _membershipRepository = new MembershipRepository();
 
         public ActivationController()
         {
@@ -32,7 +33,10 @@ namespace ProxyChatService.Controllers
                 var user = _userRepository.Read(u => u.UserName == model.UserName, u => u.DeviceTokens);
 
                 // TODO add password authenticate
-                if (user.ResultCode == ResultCode.NotFound)
+                if (
+                    user.ResultCode != ResultCode.Ok || 
+                    user.ResultData == null ||
+                    _membershipRepository.ValidatePassword(user.ResultData.Id, model.Password) == false) 
                 {
                     return Request.CreateResponse(HttpStatusCode.Forbidden);
                 }

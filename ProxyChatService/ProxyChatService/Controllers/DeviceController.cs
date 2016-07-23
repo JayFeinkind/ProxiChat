@@ -12,9 +12,14 @@ namespace ProxyChatService.Controllers
     {
         DeviceTokenRepository _deviceTokenRepository = new DeviceTokenRepository();
 
+        //[HttpPost]
+        //public HttpResponseMessage CreateDevice(DeviceDto device)
+        //{
+
+        //}
 
         [HttpPost]
-        public HttpResponseMessage UpdateDeviceToken(DeviceTokenDto deviceToken)
+        public HttpResponseMessage CreateDeviceToken(DeviceTokenDto deviceToken)
         {
             try
             {

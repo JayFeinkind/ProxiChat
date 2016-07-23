@@ -51,7 +51,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Dtos\DeviceDto.cs" />
     <Compile Include="Dtos\DeviceTokenDto.cs" />
+    <Compile Include="Mappers\DeviceMapper.cs" />
     <Compile Include="Mappers\DeviceTokenMapper.cs" />
     <Compile Include="Models\Device.cs">
       <DependentUpon>DevicesModel.tt</DependentUpon>
@@ -81,7 +83,9 @@
       <DependentUpon>DevicesModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositories\DeviceRepository.cs" />
     <Compile Include="Repositories\DeviceTokenRepository.cs" />
+    <Compile Include="Repositories\IDeviceRepository.cs" />
     <Compile Include="Repositories\IDeviceTokenRepository.cs" />
   </ItemGroup>
   <ItemGroup>

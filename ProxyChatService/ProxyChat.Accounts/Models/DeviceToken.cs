@@ -23,7 +23,7 @@ namespace ProxyChat.Accounts.Models
         public string Token { get; set; }
         public int DeviceId { get; set; }
     
-        public virtual Device Device { get; set; }
         public virtual User User { get; set; }
+        public virtual Device Device { get; set; }
     }
 }

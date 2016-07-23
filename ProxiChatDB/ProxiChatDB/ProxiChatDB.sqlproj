@@ -59,17 +59,21 @@
     <Folder Include="Properties" />
     <Folder Include="Messages\" />
     <Folder Include="Messages\Tables\" />
+    <Folder Include="Devices\" />
+    <Folder Include="Devices\Tables\" />
     <Folder Include="Accounts\" />
     <Folder Include="Accounts\Tables\" />
     <Folder Include="Security\" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="Messages\Tables\Messages.sql" />
-    <Build Include="Accounts\Tables\DeviceLocations.sql" />
-    <Build Include="Accounts\Tables\DeviceTokens.sql" />
-    <Build Include="Accounts\Tables\Devices.sql" />
+    <Build Include="Accounts\Tables\Membership.sql" />
     <Build Include="Accounts\Tables\Users.sql" />
     <Build Include="Security\Messages.sql" />
+    <Build Include="Security\Devices.sql" />
     <Build Include="Security\Accounts.sql" />
+    <Build Include="Devices\Tables\DeviceLocations.sql" />
+    <Build Include="Devices\Tables\Devices.sql" />
+    <Build Include="Devices\Tables\DeviceTokens.sql" />
   </ItemGroup>
 </Project>
