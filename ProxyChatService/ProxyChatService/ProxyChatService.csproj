@@ -271,6 +271,10 @@
       <Project>{6FFB7C3D-F042-45D0-AE92-421004D8B406}</Project>
       <Name>ProxyChat.Accounts</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ProxyChat.Devices\ProxyChat.Devices.csproj">
+      <Project>{256430A8-CB11-45DE-B342-A1FCA3FA3CB1}</Project>
+      <Name>ProxyChat.Devices</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ProxyChat.Domain\ProxyChat.Domain.csproj">
       <Project>{c5b97aa9-7d23-4f95-9faf-9821bc5c766a}</Project>
       <Name>ProxyChat.Domain</Name>

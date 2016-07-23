@@ -1,0 +1,3 @@
+﻿CREATE SCHEMA [Devices]
+    AUTHORIZATION [dbo];
+

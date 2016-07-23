@@ -11,9 +11,10 @@ namespace ProxyChat.Domain
         where TEntity : class, new()
         where TDBContext : DbContext, new()
     {
-
+        // Implemented by inherited classes, used to convert from entities to dtos and dtos to entities
         protected abstract IResourceMapper<TEntity, TDto> Mapper { get; }
 
+        // Implemented by inherited classes, checks required fields to avoid sql exceptions
         protected abstract bool ValidateDto(TDto dto);
 
         #region Read
@@ -206,6 +207,7 @@ namespace ProxyChat.Domain
 
         #endregion
 
+        #region Create
         public virtual IRepositoryResult<TDto> Create(TDto dto)
         {
             IRepositoryResult<TDto> result = new RepositoryResult<TDto>();
@@ -243,5 +245,7 @@ namespace ProxyChat.Domain
 
             return result;
         }
+
+        #endregion
     }
 }

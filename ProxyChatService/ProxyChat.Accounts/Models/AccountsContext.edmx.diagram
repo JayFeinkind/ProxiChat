@@ -8,8 +8,6 @@
         <EntityTypeShape EntityType="Accounts.Models.Device" Width="1.5" PointX="0.75" PointY="5" />
         <EntityTypeShape EntityType="Accounts.Models.DeviceToken" Width="1.5" PointX="3" PointY="4.75" />
         <EntityTypeShape EntityType="Accounts.Models.User" Width="1.5" PointX="0.75" PointY="0.75" />
-        <EntityTypeShape EntityType="Accounts.Models.DeviceLocation" Width="1.5" PointX="3" PointY="8.5" />
-        <AssociationConnector Association="Accounts.Models.FK__DeviceLoc__Devic__5629CD9C" />
         <AssociationConnector Association="Accounts.Models.FK_DeviceId_Devices" />
         <AssociationConnector Association="Accounts.Models.FK_DeviceTokens_Users" />
       </Diagram>

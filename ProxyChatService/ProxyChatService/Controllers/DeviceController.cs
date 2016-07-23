@@ -1,12 +1,9 @@
-﻿using ProxyChat.Accounts.Dtos;
-using ProxyChat.Accounts.Repositories;
+﻿using ProxyChat.Devices.Dtos;
+using ProxyChat.Devices.Repositories;
 using ProxyChat.Domain;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Web;
 using System.Web.Mvc;
 
 namespace ProxyChatService.Controllers

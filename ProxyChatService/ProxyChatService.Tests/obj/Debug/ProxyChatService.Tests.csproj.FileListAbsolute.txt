@@ -53,3 +53,5 @@ C:\ProxiChat\ProxyChatService\ProxyChatService.Tests\bin\Debug\EntityFramework.x
 C:\ProxiChat\ProxyChatService\ProxyChatService.Tests\obj\Debug\ProxyChatService.Tests.csprojResolveAssemblyReference.cache
 C:\ProxiChat\ProxyChatService\ProxyChatService.Tests\obj\Debug\ProxyChatService.Tests.dll
 C:\ProxiChat\ProxyChatService\ProxyChatService.Tests\obj\Debug\ProxyChatService.Tests.pdb
+C:\ProxiChat\ProxyChatService\ProxyChatService.Tests\bin\Debug\ProxyChat.Devices.dll
+C:\ProxiChat\ProxyChatService\ProxyChatService.Tests\bin\Debug\ProxyChat.Devices.pdb

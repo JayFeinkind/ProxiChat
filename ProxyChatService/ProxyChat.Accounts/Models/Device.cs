@@ -17,7 +17,6 @@ namespace ProxyChat.Accounts.Models
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Device()
         {
-            this.DeviceLocations = new HashSet<DeviceLocation>();
             this.DeviceTokens = new HashSet<DeviceToken>();
         }
     
@@ -28,8 +27,6 @@ namespace ProxyChat.Accounts.Models
         public long VersionNumber { get; set; }
         public string DeviceIdentifier { get; set; }
     
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<DeviceLocation> DeviceLocations { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DeviceToken> DeviceTokens { get; set; }
     }
