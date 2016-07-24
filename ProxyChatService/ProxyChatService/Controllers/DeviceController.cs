@@ -4,6 +4,7 @@ using ProxyChat.Domain;
 using System;
 using System.Net;
 using System.Net.Http;
+using System.Threading.Tasks;
 using System.Web.Mvc;
 
 namespace ProxyChatService.Controllers
@@ -19,11 +20,11 @@ namespace ProxyChatService.Controllers
         //}
 
         [HttpPost]
-        public HttpResponseMessage CreateDeviceToken(DeviceTokenDto deviceToken)
+        public async Task<HttpResponseMessage> CreateDeviceToken(DeviceTokenDto deviceToken)
         {
             try
             {
-                var createResult = _deviceTokenRepository.Create(deviceToken);
+                var createResult = await _deviceTokenRepository.Create(deviceToken);
 
                 return Request.CreateResponse(createResult.ResultCode.ToHttpStatusCode(), createResult.ResultData, "application/json");
             }

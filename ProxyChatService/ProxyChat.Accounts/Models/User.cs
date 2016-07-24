@@ -29,6 +29,7 @@ namespace ProxyChat.Accounts.Models
         public string LastName { get; set; }
         public string UserName { get; set; }
         public string EmailAddress { get; set; }
+        public Nullable<System.Guid> ResetPasswordToken { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DeviceToken> DeviceTokens { get; set; }

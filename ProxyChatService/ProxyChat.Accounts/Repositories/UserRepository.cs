@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using ProxyChat.Accounts.Models;
 using ProxyChat.Domain;
+using System.Data.Entity;
 using ProxyChat.Accounts.Dtos;
 using ProxyChat.Accounts.Mappers;
 
@@ -30,7 +31,7 @@ namespace ProxyChat.Accounts.Repositories
             return true;
         }
 
-        public override IRepositoryResult<UserDto> Create(UserDto dto)
+        public override async Task<IRepositoryResult<UserDto>> Create(UserDto dto)
         {
             IRepositoryResult<UserDto> result = new RepositoryResult<UserDto>();
             
@@ -48,9 +49,9 @@ namespace ProxyChat.Accounts.Repositories
 
                 using (var context = new AccountsContext())
                 {
-                    IEnumerable<User> users = context.Set<User>().AsNoTracking().AsQueryable();
+                    IQueryable<User> users = context.Set<User>().AsNoTracking().AsQueryable();
 
-                    if (users.Any(u => u.UserName.Trim().ToLower() == dto.UserName.Trim().ToLower()))
+                    if (await users.AnyAsync(u => u.UserName.Trim().ToLower() == dto.UserName.Trim().ToLower()))
                     {
                         result.ResultData = null;
                         result.ResultCode = ResultCode.DataConflict;
@@ -59,7 +60,7 @@ namespace ProxyChat.Accounts.Repositories
                         return result;
                     }
 
-                    if (users.Any(u => u.EmailAddress.Trim().ToLower() == dto.EmailAddress.Trim().ToLower()))
+                    if (await users.AnyAsync(u => u.EmailAddress.Trim().ToLower() == dto.EmailAddress.Trim().ToLower()))
                     {
                         result.ResultData = null;
                         result.ResultCode = ResultCode.DataConflict;
@@ -69,7 +70,7 @@ namespace ProxyChat.Accounts.Repositories
                     }
                 }
 
-                result = base.Create(dto);
+                result = await base.Create(dto);
             }
             catch (Exception e)
             {
@@ -79,6 +80,18 @@ namespace ProxyChat.Accounts.Repositories
             }
 
             return result;
+        }
+
+        protected override void UpdateEntityProperties(User from, User to)
+        {
+            to.DeviceTokens = from.DeviceTokens;
+            to.EmailAddress = from.EmailAddress;
+            to.FirstName = from.FirstName;
+
+            to.LastName = from.LastName;
+            to.ModifiedUTC = DateTime.UtcNow;
+            to.ResetPasswordToken = from.ResetPasswordToken;
+            to.UserName = from.UserName;
         }
     }
 }

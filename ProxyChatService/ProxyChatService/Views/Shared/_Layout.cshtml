@@ -6,6 +6,15 @@
 
 </head>
 <body>
+    
+    <script>
+        @* 
+        save base url as a global variable to use in javascript functions declared in outside files where 
+            razor is not available to use
+         *@
+        var BASE_URL = '@Url.Content("~/")';
+    </script>
+
     <link rel="stylesheet" type="text/css" href="~/Content/Site.css">
     <div class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">

@@ -79,6 +79,8 @@
     <Compile Include="Models\Membership.cs">
       <DependentUpon>AccountsContext.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ResourceInterfaces\Membership.cs" />
+    <Compile Include="Models\ResourceInterfaces\User.cs" />
     <Compile Include="Models\User.cs">
       <DependentUpon>AccountsContext.tt</DependentUpon>
     </Compile>

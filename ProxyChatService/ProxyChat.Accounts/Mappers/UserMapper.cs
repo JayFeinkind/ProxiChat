@@ -27,6 +27,7 @@ namespace ProxyChat.Accounts.Mappers
             entity.LastName = dto.LastName;
             entity.ModifiedUTC = dto.ModifiedUTC;
             entity.UserName = dto.UserName;
+            entity.ResetPasswordToken = dto.ResetPasswordToken;
 
             return entity;
         }
@@ -39,6 +40,7 @@ namespace ProxyChat.Accounts.Mappers
         public UserDto MapEntityToDto(User entity)
         {
             UserDto dto = new UserDto();
+
             dto.CreatedUTC = DateTime.SpecifyKind(entity.CreatedUTC, DateTimeKind.Utc);
             dto.DeviceTokens = entity.DeviceTokens;
             dto.Id = entity.Id;
@@ -48,6 +50,7 @@ namespace ProxyChat.Accounts.Mappers
             dto.ModifiedUTC = entity.ModifiedUTC;
             dto.UserName = entity.UserName;
             dto.VersionNumber = entity.VersionNumber;
+            dto.ResetPasswordToken = entity.ResetPasswordToken;
 
             return dto;
         }

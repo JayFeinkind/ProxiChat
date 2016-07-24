@@ -36,7 +36,7 @@ namespace ProxyChat.Accounts.Mappers
         {
             MembershipDto dto = new MembershipDto();
 
-            dto.CreatedUTC = entity.CreatedUTC;
+            dto.CreatedUTC = DateTime.SpecifyKind(entity.CreatedUTC, DateTimeKind.Utc);
             dto.Id = entity.Id;
             dto.HashedPassword = entity.Password;
             dto.Salt = entity.Salt;

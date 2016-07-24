@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Mail;
+using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 
@@ -26,7 +27,7 @@ namespace ProxyChatService.Controllers
             return PartialView("~/Views/CreateAccount/AccountCreatedPartial.cshtml", user);
         }
 
-        private UserDto CreateUser(CreateAccountModel model)
+        private async Task<UserDto> CreateUser(CreateAccountModel model)
         {
             UserDto user = new UserDto();
             user.CreatedUTC = DateTime.UtcNow;
@@ -35,7 +36,7 @@ namespace ProxyChatService.Controllers
             user.LastName = model.LastName;
             user.UserName = model.UserName;
 
-            var newUser = _userRepository.Create(user);
+            var newUser = await _userRepository.Create(user);
 
             if (newUser.ResultCode != ProxyChat.Domain.ResultCode.Created)
             {
@@ -47,18 +48,18 @@ namespace ProxyChatService.Controllers
             membership.TextPassword = model.Password;
             membership.Id = newUser.ResultData.Id;
 
-            _membershipRepository.Create(membership);
+            await _membershipRepository.Create(membership);
 
             return newUser.ResultData;
         }
    
-        public JsonResult CreateNewAccount(CreateAccountModel model)
+        public async Task<JsonResult> CreateNewAccount(CreateAccountModel model)
         {
             bool success = true;
             string message = string.Empty;
             UserDto user = null;
 
-            var existingUser = _userRepository.Read(u => u.UserName == model.UserName || u.EmailAddress == model.Email);
+            var existingUser = await _userRepository.Read(u => u.UserName == model.UserName || u.EmailAddress == model.Email);
 
             if (existingUser.ResultCode == ProxyChat.Domain.ResultCode.Ok && existingUser.ResultData != null)
             {
@@ -75,30 +76,10 @@ namespace ProxyChatService.Controllers
             }
             else
             {
-                user = CreateUser(model);
+                user = await CreateUser(model);
             }
 
             return Json(new { Success = success , Message = message, Value = user});
-        }
-
-
-        private void SendForgotPasswordEmail(string email)
-        {
-            SmtpClient smtpClient = new SmtpClient("mail.ProxyChat.com", 25);
-
-            smtpClient.Credentials = new System.Net.NetworkCredential("JayFeinkind@gmail.com", "nemisis1986");
-            smtpClient.UseDefaultCredentials = true;
-            smtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;
-            smtpClient.EnableSsl = true;
-            MailMessage mail = new MailMessage();
-            mail.IsBodyHtml = true;
-            mail.Body = "<a href='https://www.google.com/'>Link</a>";
-
-            //Setting From , To and CC
-            mail.From = new MailAddress("JayFeinkind@gmail.com", "MyWeb Site");
-            mail.To.Add(new MailAddress(email));
-
-            smtpClient.Send(mail);
         }
        
     }

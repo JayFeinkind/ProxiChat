@@ -3,7 +3,9 @@ using ProxyChat.Devices.Mappers;
 using ProxyChat.Devices.Models;
 using ProxyChat.Domain;
 using System;
+using System.Data.Entity;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace ProxyChat.Devices.Repositories
 {
@@ -19,7 +21,7 @@ namespace ProxyChat.Devices.Repositories
             }
         }
 
-        public override IRepositoryResult<DeviceTokenDto> Create(DeviceTokenDto dto)
+        public override async Task<IRepositoryResult<DeviceTokenDto>> Create(DeviceTokenDto dto)
         {
             IRepositoryResult<DeviceTokenDto> result = new RepositoryResult<DeviceTokenDto>();
 
@@ -35,24 +37,24 @@ namespace ProxyChat.Devices.Repositories
                     return result;
                 }
 
-                var readResult = base.Read(dt => dt.DeviceId == dto.DeviceId);
+                var readResult = await base.Read(dt => dt.DeviceId == dto.DeviceId);
 
                 if (readResult.ResultCode == ResultCode.NotFound)
                 {
-                    result = base.Create(dto);
+                    result = await base.Create(dto);
                 }
                 else
                 {
                     using (var context = new DevicesContext())
                     {
-                        var updateToken = context.Set<DeviceToken>().FirstOrDefault(dt => dt.DeviceId == dto.DeviceId);
+                        var updateToken =  await context.Set<DeviceToken>().FirstOrDefaultAsync(dt => dt.DeviceId == dto.DeviceId);
 
                         updateToken.DeviceId = dto.DeviceId;
                         updateToken.ModifiedUTC = DateTime.UtcNow;
                         updateToken.Token = dto.Token;
                         updateToken.UserId = dto.UserId;
 
-                        context.SaveChanges();
+                        await context.SaveChangesAsync();
 
                         result.ResultCode = ResultCode.Ok;
                         result.ResultData = Mapper.MapEntityToDto(updateToken);
@@ -67,6 +69,16 @@ namespace ProxyChat.Devices.Repositories
             }
 
             return result;
+        }
+
+        protected override void UpdateEntityProperties(DeviceToken from, DeviceToken to)
+        {
+            to.Device = from.Device;
+            to.DeviceId = from.DeviceId;
+            to.ModifiedUTC = DateTime.UtcNow;
+            to.Token = from.Token;
+            to.User = from.User;
+            to.UserId = from.UserId;
         }
 
         protected override bool ValidateDto(DeviceTokenDto dto)

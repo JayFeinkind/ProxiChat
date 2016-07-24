@@ -35,7 +35,7 @@ namespace ProxyChat.Accounts.Repositories
             return true;
         }
 
-        public override IRepositoryResult<MembershipDto> Create(MembershipDto dto)
+        public override async Task<IRepositoryResult<MembershipDto>> Create(MembershipDto dto)
         {
             // currently salt column in DB has 8 bytes
             var salt = CreateSalt(SALT_SIZE);
@@ -44,7 +44,7 @@ namespace ProxyChat.Accounts.Repositories
             dto.Salt = salt;
             dto.HashedPassword = hashedPassword;
 
-            return base.Create(dto);
+            return await base.Create(dto);
         }
 
         public bool ValidatePassword(int userId, string password)
@@ -84,6 +84,13 @@ namespace ProxyChat.Accounts.Repositories
             byte[] saltedValue = value.Concat(salt).ToArray();
 
             return new SHA256Managed().ComputeHash(saltedValue);
+        }
+
+        protected override void UpdateEntityProperties(Membership from, Membership to)
+        {
+            to.Id = from.Id;
+            to.Password = from.Password;
+            to.Salt = from.Salt;
         }
     }
 }

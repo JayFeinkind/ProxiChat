@@ -13,6 +13,7 @@ using Newtonsoft.Json;
 using System.Net;
 using System.Text;
 using ProxyChatService.Models;
+using System.Threading.Tasks;
 
 namespace ProxyChatService.Controllers
 {
@@ -26,11 +27,11 @@ namespace ProxyChatService.Controllers
         }
 
         [HttpPost]
-        public HttpResponseMessage LogIn(LogInModel model)
+        public async Task<HttpResponseMessage> LogIn(LogInModel model)
         {
             try
             {
-                var user = _userRepository.Read(u => u.UserName == model.UserName, u => u.DeviceTokens);
+                var user = await _userRepository.Read(u => u.UserName == model.UserName, u => u.DeviceTokens);
 
                 // TODO add password authenticate
                 if (
@@ -50,11 +51,11 @@ namespace ProxyChatService.Controllers
         }
 
         [HttpPost]
-        public HttpResponseMessage Activation(UserDto User)
+        public async Task<HttpResponseMessage> Activation(UserDto User)
         {
             try
             {
-                var createResult = _userRepository.Create(User);
+                var createResult = await _userRepository.Create(User);
 
                 if (createResult.ResultCode != ResultCode.Created)
                 {

@@ -1,4 +1,5 @@
 ﻿using ProxyChat.Accounts.Models;
+using ProxyChat.Domain;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,19 +10,10 @@ using System.Threading.Tasks;
 namespace ProxyChat.Accounts.Dtos
 {
     [DataContract]
-    public class UserDto
+    public class UserDto : ResourceDto
     {
         [DataMember(EmitDefaultValue = false)]
-        public int Id { get; set; }
-
-        [DataMember]
-        public DateTime CreatedUTC { get; set; }
-
-        [DataMember(EmitDefaultValue = false)]
         public DateTime? ModifiedUTC { get; set; }
-
-        [DataMember(EmitDefaultValue = false)]
-        public long VersionNumber { get; set; }
 
         [DataMember]
         public string FirstName { get; set; }
@@ -37,5 +29,7 @@ namespace ProxyChat.Accounts.Dtos
 
         [DataMember]
         public IEnumerable<DeviceToken> DeviceTokens { get; set; }
+
+        public Guid? ResetPasswordToken { get; set; }
     }
 }

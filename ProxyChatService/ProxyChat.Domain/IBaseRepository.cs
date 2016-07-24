@@ -10,14 +10,14 @@ namespace ProxyChat.Domain
 {
     public interface IBaseRepository<IDBContext, TEntity, TDto>
     {
-        IRepositoryResult<TDto> Create(TDto dto);
+        Task<IRepositoryResult<TDto>> Create(TDto dto);
 
-        IRepositoryResult<TDto> Read(Func<TEntity, bool> whereClause);
-        IRepositoryResult<TDto> Read(Func<TEntity, bool> whereClause, params Expression<Func<TEntity, object>>[] relatedEntities);
+        Task<IRepositoryResult<TDto>> Read(Func<TEntity, bool> whereClause);
+        Task<IRepositoryResult<TDto>> Read(Func<TEntity, bool> whereClause, params Expression<Func<TEntity, object>>[] relatedEntities);
 
-        IRepositoryResult<IList<TDto>> ReadAll();
-        IRepositoryResult<IList<TDto>> ReadAll(params Expression<Func<TEntity, object>>[] relatedEntities);
-        IRepositoryResult<IList<TDto>> ReadAll(Func<TEntity, bool> whereClause);
-        IRepositoryResult<IList<TDto>> ReadAll(Func<TEntity, bool> whereClause, params Expression<Func<TEntity, object>>[] relatedEntities);
+        Task<IRepositoryResult<IList<TDto>>> ReadAll();
+        Task<IRepositoryResult<IList<TDto>>> ReadAll(params Expression<Func<TEntity, object>>[] relatedEntities);
+        Task<IRepositoryResult<IList<TDto>>> ReadAll(Func<TEntity, bool> whereClause);
+        Task<IRepositoryResult<IList<TDto>>> ReadAll(Func<TEntity, bool> whereClause, params Expression<Func<TEntity, object>>[] relatedEntities);
     }
 }

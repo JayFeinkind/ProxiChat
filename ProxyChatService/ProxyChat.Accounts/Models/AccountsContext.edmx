@@ -27,6 +27,7 @@
           <Property Name="LastName" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="UserName" Type="nvarchar" MaxLength="50" />
           <Property Name="EmailAddress" Type="nvarchar" MaxLength="100" />
+          <Property Name="ResetPasswordToken" Type="uniqueidentifier" />
         </EntityType>
         <EntityType Name="Devices">
           <Key>
@@ -122,6 +123,7 @@
           <Property Name="UserName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="EmailAddress" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="DeviceTokens" Relationship="Accounts.Models.FK_DeviceTokens_Users" FromRole="User" ToRole="DeviceToken" />
+          <Property Name="ResetPasswordToken" Type="Guid" />
         </EntityType>
         <EntityType Name="Device">
           <Key>
@@ -192,6 +194,7 @@
           <EntitySetMapping Name="Users">
             <EntityTypeMapping TypeName="Accounts.Models.User">
               <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="ResetPasswordToken" ColumnName="ResetPasswordToken" />
                 <ScalarProperty Name="EmailAddress" ColumnName="EmailAddress" />
                 <ScalarProperty Name="UserName" ColumnName="UserName" />
                 <ScalarProperty Name="LastName" ColumnName="LastName" />

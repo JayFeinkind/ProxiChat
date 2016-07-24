@@ -22,6 +22,14 @@ namespace ProxyChat.Devices.Repositories
             }
         }
 
+        protected override void UpdateEntityProperties(Device from, Device to)
+        {
+            to.DeviceIdentifier = from.DeviceIdentifier;
+            to.DeviceLocations = from.DeviceLocations;
+            to.DeviceTokens = from.DeviceTokens;
+            to.ModifiedUTC = DateTime.UtcNow;
+        }
+
         protected override bool ValidateDto(DeviceDto dto)
         {
             if (string.IsNullOrWhiteSpace(dto.DeviceIdentifier)) return false;
