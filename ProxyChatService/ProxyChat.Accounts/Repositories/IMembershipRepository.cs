@@ -9,6 +9,6 @@ namespace ProxyChat.Accounts.Repositories
 {
     public interface IMembershipRepository<AccountsContext, Membership, MembershipDto> : IBaseRepository<AccountsContext, Membership, MembershipDto>
     {
-        bool ValidatePassword(int userId, string password);
+        Task<bool> ValidatePassword(int userId, string password);
     }
 }

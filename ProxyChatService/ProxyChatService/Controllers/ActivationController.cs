@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Web;
+using System.Data.Entity;
 using ProxyChat.Domain;
 using System.Web.Mvc;
 using Newtonsoft.Json;
@@ -27,7 +28,7 @@ namespace ProxyChatService.Controllers
         }
 
         [HttpPost]
-        public async Task<HttpResponseMessage> LogIn(LogInModel model)
+        public  async Task<HttpResponseMessage> LogIn(LogInModel model)
         {
             try
             {
@@ -37,7 +38,8 @@ namespace ProxyChatService.Controllers
                 if (
                     user.ResultCode != ResultCode.Ok || 
                     user.ResultData == null ||
-                    _membershipRepository.ValidatePassword(user.ResultData.Id, model.Password) == false) 
+                    // leave this last so it only validates if necessary
+                    (await _membershipRepository.ValidatePassword(user.ResultData.Id, model.Password)) == false) 
                 {
                     return Request.CreateResponse(HttpStatusCode.Forbidden);
                 }

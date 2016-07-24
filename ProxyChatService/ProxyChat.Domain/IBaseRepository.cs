@@ -12,8 +12,8 @@ namespace ProxyChat.Domain
     {
         Task<IRepositoryResult<TDto>> Create(TDto dto);
 
-        Task<IRepositoryResult<TDto>> Read(Func<TEntity, bool> whereClause);
-        Task<IRepositoryResult<TDto>> Read(Func<TEntity, bool> whereClause, params Expression<Func<TEntity, object>>[] relatedEntities);
+        Task<IRepositoryResult<TDto>> Read(Expression<Func<TEntity, bool>> whereClause);
+        Task<IRepositoryResult<TDto>> Read(Expression<Func<TEntity, bool>> whereClause, params Expression<Func<TEntity, object>>[] relatedEntities);
 
         Task<IRepositoryResult<IList<TDto>>> ReadAll();
         Task<IRepositoryResult<IList<TDto>>> ReadAll(params Expression<Func<TEntity, object>>[] relatedEntities);

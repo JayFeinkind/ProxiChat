@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
+using System.Data.Entity;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -47,7 +48,7 @@ namespace ProxyChat.Accounts.Repositories
             return await base.Create(dto);
         }
 
-        public bool ValidatePassword(int userId, string password)
+        public async Task<bool> ValidatePassword(int userId, string password)
         {
             if (string.IsNullOrWhiteSpace(password)) return false;
             if (userId == 0) return false;
@@ -55,7 +56,7 @@ namespace ProxyChat.Accounts.Repositories
             using (var context = new AccountsContext())
             {
                 // membership primary key is the userId.  No actual FK relation exists.
-                var membership = context.Set<Membership>().AsNoTracking().FirstOrDefault(m => m.Id == userId);
+                var membership = await context.Set<Membership>().AsNoTracking().FirstOrDefaultAsync(m => m.Id == userId);
 
                 if (membership == null) return false;
 

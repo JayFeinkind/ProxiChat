@@ -12,17 +12,18 @@ namespace ProxyChat.Domain
         where TEntity : class, IResource, new()
         where TDBContext : DbContext, new()
     {
-        // Implemented by inherited classes, used to convert from entities to dtos and dtos to entities
+        // used to convert from entities to dtos and dtos to entities
         protected abstract IResourceMapper<TEntity, TDto> Mapper { get; }
 
-        // Implemented by inherited classes, checks required fields to avoid sql exceptions
+        // checks required fields to avoid sql exceptions
         protected abstract bool ValidateDto(TDto dto);
 
+        // copies resource specific values from one entity to another
         protected abstract void UpdateEntityProperties(TEntity from, TEntity to);
 
         #region Read
 
-        public virtual async Task<IRepositoryResult<TDto>> Read(Func<TEntity, bool> whereClause)
+        public virtual async Task<IRepositoryResult<TDto>> Read(Expression<Func<TEntity, bool>> whereClause)
         {
             IRepositoryResult<TDto> result = new RepositoryResult<TDto>();
 
@@ -30,8 +31,7 @@ namespace ProxyChat.Domain
             {
                 using (var context = new TDBContext())
                 {
-                    IQueryable<TEntity> query = context.Set<TEntity>().AsNoTracking().Where(whereClause).AsQueryable();
-                    var entity = await query.FirstOrDefaultAsync();
+                    var entity = await context.Set<TEntity>().AsNoTracking().FirstOrDefaultAsync(whereClause);
 
                     if (entity == null)
                     {
@@ -56,7 +56,7 @@ namespace ProxyChat.Domain
             return result;
         }
 
-        public virtual async Task<IRepositoryResult<TDto>> Read(Func<TEntity, bool> whereClause, params Expression<Func<TEntity, object>>[] relatedEntities)
+        public virtual async Task<IRepositoryResult<TDto>> Read(Expression<Func<TEntity, bool>> whereClause, params Expression<Func<TEntity, object>>[] relatedEntities)
         {
             IRepositoryResult<TDto> result = new RepositoryResult<TDto>();
 
@@ -72,10 +72,7 @@ namespace ProxyChat.Domain
                         query = query.Include(relation);
                     }
 
-                    query = query.Where(whereClause).AsQueryable();
-
-
-                    var entity = await query.FirstOrDefaultAsync();
+                    var entity = await query.FirstOrDefaultAsync(whereClause);
 
                     if (entity == null)
                     {
@@ -159,62 +156,70 @@ namespace ProxyChat.Domain
             return result;
         }
 
-        public virtual async Task<IRepositoryResult<IList<TDto>>> ReadAll(Func<TEntity, bool> whereClause)
+        public virtual Task<IRepositoryResult<IList<TDto>>> ReadAll(Func<TEntity, bool> whereClause)
         {
-            IRepositoryResult<IList<TDto>> result = new RepositoryResult<IList<TDto>>();
-
-            try
+            return Task.Run(() =>
             {
-                using (var context = new TDBContext())
+                IRepositoryResult<IList<TDto>> result = new RepositoryResult<IList<TDto>>();
+
+                try
                 {
-                   var entities = await context.Set<TEntity>().AsNoTracking().Where(whereClause).AsQueryable().ToListAsync();
+                    using (var context = new TDBContext())
+                    {
+                        var query = context.Set<TEntity>().AsNoTracking();
 
-                    result.ResultData = Mapper.MapEntitiesToDtos(entities);
-                    result.ResultCode = ResultCode.Ok;
+                        var entities = context.Set<TEntity>().AsNoTracking().Where(whereClause).AsQueryable();
+
+                        result.ResultData = Mapper.MapEntitiesToDtos(entities);
+                        result.ResultCode = ResultCode.Ok;
+                    }
                 }
-            }
-            catch (Exception e)
-            {
-                result.ResultData = null;
-                result.ResultCode = ResultCode.Error;
-                result.ResultDescription = e.Message;
-                result.Exception = e;
-            }
+                catch (Exception e)
+                {
+                    result.ResultData = null;
+                    result.ResultCode = ResultCode.Error;
+                    result.ResultDescription = e.Message;
+                    result.Exception = e;
+                }
 
-            return result;
+                return result;
+            });
         }
 
-        public virtual async Task<IRepositoryResult<IList<TDto>>> ReadAll(Func<TEntity, bool> whereClause, params Expression<Func<TEntity, object>>[] relatedEntities)
+        // returns a task because adding in the where clause then calling async read after throws an exceptioin because it
+        //    gets invoked on a collectioin that doesn't implement async methods.  Currently no WhereAsync is available
+        public virtual Task<IRepositoryResult<IList<TDto>>> ReadAll(Func<TEntity, bool> whereClause, params Expression<Func<TEntity, object>>[] relatedEntities)
         {
-            IRepositoryResult<IList<TDto>> result = new RepositoryResult<IList<TDto>>();
-
-            try
+            return Task.Run(() =>
             {
-                using (var context = new TDBContext())
+                IRepositoryResult<IList<TDto>> result = new RepositoryResult<IList<TDto>>();
+
+                try
                 {
-                    IQueryable<TEntity> query = context.Set<TEntity>().AsNoTracking().Where(whereClause).AsQueryable();
-
-                    // include each related entity supplied in parameter list
-                    foreach (var relation in relatedEntities)
+                    using (var context = new TDBContext())
                     {
-                        query = query.Include(relation);
+                        IQueryable<TEntity> entities = context.Set<TEntity>().AsNoTracking().Where(whereClause).AsQueryable();
+
+                        // include each related entity supplied in parameter list
+                        foreach (var relation in relatedEntities)
+                        {
+                            entities = entities.Include(relation);
+                        }
+
+                        result.ResultData = Mapper.MapEntitiesToDtos(entities);
+                        result.ResultCode = ResultCode.Ok;
                     }
-
-                    var entities = await query.ToListAsync();
-
-                    result.ResultData = Mapper.MapEntitiesToDtos(entities);
-                    result.ResultCode = ResultCode.Ok;
                 }
-            }
-            catch (Exception e)
-            {
-                result.ResultData = null;
-                result.ResultCode = ResultCode.Error;
-                result.ResultDescription = e.Message;
-                result.Exception = e;
-            }
+                catch (Exception e)
+                {
+                    result.ResultData = null;
+                    result.ResultCode = ResultCode.Error;
+                    result.ResultDescription = e.Message;
+                    result.Exception = e;
+                }
 
-            return result;
+                return result;
+            });
         }
 
         #endregion
