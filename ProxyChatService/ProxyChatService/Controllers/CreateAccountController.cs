@@ -4,6 +4,7 @@ using ProxyChatService.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Mail;
 using System.Web;
 using System.Web.Mvc;
 
@@ -35,6 +36,11 @@ namespace ProxyChatService.Controllers
             user.UserName = model.UserName;
 
             var newUser = _userRepository.Create(user);
+
+            if (newUser.ResultCode != ProxyChat.Domain.ResultCode.Created)
+            {
+                throw new Exception(newUser.ResultDescription);
+            }
 
             MembershipDto membership = new MembershipDto();
             membership.CreatedUTC = DateTime.UtcNow;
@@ -75,6 +81,25 @@ namespace ProxyChatService.Controllers
             return Json(new { Success = success , Message = message, Value = user});
         }
 
+
+        private void SendForgotPasswordEmail(string email)
+        {
+            SmtpClient smtpClient = new SmtpClient("mail.ProxyChat.com", 25);
+
+            smtpClient.Credentials = new System.Net.NetworkCredential("JayFeinkind@gmail.com", "nemisis1986");
+            smtpClient.UseDefaultCredentials = true;
+            smtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;
+            smtpClient.EnableSsl = true;
+            MailMessage mail = new MailMessage();
+            mail.IsBodyHtml = true;
+            mail.Body = "<a href='https://www.google.com/'>Link</a>";
+
+            //Setting From , To and CC
+            mail.From = new MailAddress("JayFeinkind@gmail.com", "MyWeb Site");
+            mail.To.Add(new MailAddress(email));
+
+            smtpClient.Send(mail);
+        }
        
     }
 }

@@ -24,7 +24,13 @@
         </div>
     </div>
     <div class="container body-content">
-        @RenderBody()
+        <div class="inside-body-content">
+            <div class="logo-container">
+                <img id="header-logo" src="@Url.Content("~/Content/Images/LogoPC.png")" />
+            </div>
+            <hr id="top-divider" style="border-color:#FF3B30;" />
+            @RenderBody()
+        </div>
         <hr />
         <footer>
             <p>&copy; @DateTime.Now.Year - Proxy Chat</p>
