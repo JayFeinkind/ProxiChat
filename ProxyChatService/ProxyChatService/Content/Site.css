@@ -1,12 +1,28 @@
 ﻿body {
-    padding-top: 50px;
+    padding-top: 20px;
     padding-bottom: 20px;
+    background-color:lightgray;
 }
+.inside-body-content
+{
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
 
+    border-color:white;
+    border-top-color: #007AFF;
+    
+    border-width: 2px;
+    border-style: solid;
+    background-color:white;
+    margin-right: 20px;
+    margin-left: 20px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
 /* Set padding to keep content from hitting the edges */
 .body-content {
-    padding-left: 15px;
-    padding-right: 15px;
+    padding-left: 10px;
+    padding-right: 10px;
 }
 
 /* Override the default bootstrap behavior where horizontal description lists 

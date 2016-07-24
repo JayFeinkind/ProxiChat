@@ -1,0 +1,123 @@
+﻿
+@{
+    ViewBag.Title = "CreateAccount";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .logo-containe {
+        max-width: 100%;
+    }
+
+    #header-logo {
+        display: block;
+        margin: 0 auto;
+    }
+</style>
+
+<div class="inside-body-content">
+    <div class="logo-container">
+        <img id="header-logo" src="@Url.Content("~/Content/Images/LogoPC.png")" />
+    </div>
+    <hr id="top-divider" style="border-color:#FF3B30;" />
+    <div id="inner-container">
+        @{Html.RenderPartial("CreateAccountFormPartial", null);}
+    </div>
+</div>
+
+
+<script>
+    function validateEmail(email) {
+        var re = /^(([^<>()\[\]\\.,;:\s@@"]+(\.[^<>()\[\]\\.,;:\s@@"]+)*)|(".+"))@@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        return re.test(email);
+    }
+
+    function dataIsValid(email, password)
+    {
+        var validData = true;
+        var errorString = "<span><br>";
+
+        if (validateEmail(email) == false)
+        {
+            validData = false;
+            errorString += '&#8226 Invalid Email<br>';
+        }
+        if (password != $('#password-confirm-input-box').val())
+        {
+            validData = false;
+            errorString += '&#8226 Passwords don\'t match<br>';
+        }
+        if (password.length < 5)
+        {
+            validData = false;
+            errorString += '&#8226 Password not long enough<br>';
+        }
+        if (/[A-Z]/.test(password) == false)
+        {
+            validData = false;
+            errorString += '&#8226 Password must have a capital letter';
+        }
+
+        if (validData == false)
+        {
+            $('#error-container').html(errorString + '</span>');
+        }
+        else
+        {
+            $('#error-container').html("");
+        }
+
+        return validData;
+    }
+
+    function submit() {
+        var email = $('#email-input-box').val();
+        var password = $('#password-input-box').val();
+        var firstName = $('#first-name-input-box').val();
+        var lastName = $('#last-name-input-box').val();
+        var userName = $('#user-name-input-box').val();
+        var url = '@Url.Action("CreateNewAccount", "CreateAccount")';
+        var data = { model: { Email: email, Password: password, FirstName: firstName, LastName: lastName, UserName: userName } };
+         
+        if (dataIsValid(email, password) == true)
+        {
+            $.ajax({
+                url: url,
+                type: 'POST',
+                accept: 'json',
+                contentType: 'application/json',
+                data: JSON.stringify(data),
+                error: function (error) {
+                    console.log(error);
+                    $('#error-container').html('<p>An error has occurred</p>');
+                },
+                success: function (data) {
+                    @*
+                        data structure defined server side
+                        
+                        data.Success - create user success
+                        data.Message - error message if error occured, empty otherwise
+                        data.Value - User object to pass to next page
+                        *@
+                    if (data.Success == false)
+                    {
+                        $('#error-container').html("<span>" + data.Message + "</span>");
+                    }
+                    else
+                    {
+                        $.ajax({
+                            url: '@Url.Action("AccountCreated", "CreateAccount")',
+                            type: 'POST',
+                            accept: 'html',
+                            contentType: 'application/json',
+                            data: JSON.stringify(data.Value),
+                            success: function (partial) {
+                                $('#inner-container').html(partial);
+                            }
+                        });
+                    }
+                }
+            });
+        }
+    }
+</script>

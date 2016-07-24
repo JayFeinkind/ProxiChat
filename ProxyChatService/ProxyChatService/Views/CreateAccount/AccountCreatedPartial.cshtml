@@ -1,0 +1,49 @@
+﻿@model ProxyChat.Accounts.Dtos.UserDto
+
+
+<style>
+    body {
+        font-family: "Lucida Sans";
+        font-size: larger;
+    }
+    span {
+        display: inline;
+        margin: 5px;
+    }
+    .field-label {
+        width: 20%;
+        display: inline-block;
+    }
+    .email-field{
+        margin-bottom:20px;
+    }
+
+</style>
+
+<h4>Account Created!</h4>
+<div class="form-group">
+    <div class="col-md-10">
+        <div class="field-label">
+            <span>User Name:</span>
+        </div>
+        <span>@Model.UserName</span>
+    </div>
+    <div class="col-md-10">
+        <div class="field-label">
+            <span>First Name:</span>
+        </div>
+        <span>@Model.FirstName</span>
+    </div>
+    <div class="col-md-10">
+        <div class="field-label">
+            <span>Last Name:</span>
+        </div>
+        <span>@Model.LastName</span>
+    </div>
+    <div class="col-md-10">
+        <div class="field-label email-field">
+            <span>Email:</span>
+        </div>
+       <span>@Model.EmailAddress</span>
+    </div>
+</div>

@@ -9,7 +9,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Id" Type="int" Nullable="false" />
           <Property Name="CreatedUTC" Type="datetime2" Precision="7" Nullable="false" />
           <Property Name="Password" Type="binary" MaxLength="32" Nullable="false" />
           <Property Name="Salt" Type="binary" MaxLength="8" Nullable="false" />
@@ -96,7 +96,6 @@
       <Schema Namespace="Accounts.Models" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="AccountsContext" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Users" EntityType="Accounts.Models.User" />
-          <EntitySet Name="Memberships" EntityType="Accounts.Models.Membership" />
           <EntitySet Name="Devices" EntityType="Accounts.Models.Device" />
           <EntitySet Name="DeviceTokens" EntityType="Accounts.Models.DeviceToken" />
           <AssociationSet Name="FK_DeviceTokens_Users" Association="Accounts.Models.FK_DeviceTokens_Users">
@@ -107,6 +106,7 @@
             <End Role="Device" EntitySet="Devices" />
             <End Role="DeviceToken" EntitySet="DeviceTokens" />
           </AssociationSet>
+          <EntitySet Name="Memberships" EntityType="Accounts.Models.Membership" />
         </EntityContainer>
         <EntityType Name="User">
           <Key>
@@ -122,15 +122,6 @@
           <Property Name="UserName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="EmailAddress" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="DeviceTokens" Relationship="Accounts.Models.FK_DeviceTokens_Users" FromRole="User" ToRole="DeviceToken" />
-        </EntityType>
-        <EntityType Name="Membership">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="CreatedUTC" Type="DateTime" Nullable="false" Precision="7" />
-          <Property Name="Password" Type="Binary" Nullable="false" MaxLength="32" FixedLength="true" />
-          <Property Name="Salt" Type="Binary" Nullable="false" MaxLength="8" FixedLength="true" />
         </EntityType>
         <EntityType Name="Device">
           <Key>
@@ -183,6 +174,15 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="Membership">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="CreatedUTC" Type="DateTime" Nullable="false" Precision="7" />
+          <Property Name="Password" Type="Binary" Nullable="false" MaxLength="32" FixedLength="true" />
+          <Property Name="Salt" Type="Binary" Nullable="false" MaxLength="8" FixedLength="true" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -199,16 +199,6 @@
                 <ScalarProperty Name="VersionNumber" ColumnName="VersionNumber" />
                 <ScalarProperty Name="Version" ColumnName="Version" />
                 <ScalarProperty Name="ModifiedUTC" ColumnName="ModifiedUTC" />
-                <ScalarProperty Name="CreatedUTC" ColumnName="CreatedUTC" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Memberships">
-            <EntityTypeMapping TypeName="Accounts.Models.Membership">
-              <MappingFragment StoreEntitySet="Membership">
-                <ScalarProperty Name="Salt" ColumnName="Salt" />
-                <ScalarProperty Name="Password" ColumnName="Password" />
                 <ScalarProperty Name="CreatedUTC" ColumnName="CreatedUTC" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
@@ -235,6 +225,16 @@
                 <ScalarProperty Name="VersionNumber" ColumnName="VersionNumber" />
                 <ScalarProperty Name="Version" ColumnName="Version" />
                 <ScalarProperty Name="ModifiedUTC" ColumnName="ModifiedUTC" />
+                <ScalarProperty Name="CreatedUTC" ColumnName="CreatedUTC" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Memberships">
+            <EntityTypeMapping TypeName="Accounts.Models.Membership">
+              <MappingFragment StoreEntitySet="Membership">
+                <ScalarProperty Name="Salt" ColumnName="Salt" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
                 <ScalarProperty Name="CreatedUTC" ColumnName="CreatedUTC" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>

@@ -6,11 +6,11 @@
     <edmx:Diagrams>
       <Diagram DiagramId="235ddd8b41fa422084c748376aec7f09" Name="Diagram1">
         <EntityTypeShape EntityType="Accounts.Models.User" Width="1.5" PointX="0.75" PointY="0.75" />
-        <EntityTypeShape EntityType="Accounts.Models.Membership" Width="1.5" PointX="3.375" PointY="0.75" />
         <EntityTypeShape EntityType="Accounts.Models.Device" Width="1.5" PointX="0.75" PointY="5" />
         <EntityTypeShape EntityType="Accounts.Models.DeviceToken" Width="1.5" PointX="3" PointY="3.75" />
         <AssociationConnector Association="Accounts.Models.FK_DeviceTokens_Users" />
         <AssociationConnector Association="Accounts.Models.FK_DeviceId_Devices" />
+        <EntityTypeShape EntityType="Accounts.Models.Membership" Width="1.5" PointX="3.375" PointY="0.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

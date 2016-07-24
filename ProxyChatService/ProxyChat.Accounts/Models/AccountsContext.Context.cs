@@ -26,8 +26,8 @@ namespace ProxyChat.Accounts.Models
         }
     
         public virtual DbSet<User> Users { get; set; }
-        public virtual DbSet<Membership> Memberships { get; set; }
         public virtual DbSet<Device> Devices { get; set; }
         public virtual DbSet<DeviceToken> DeviceTokens { get; set; }
+        public virtual DbSet<Membership> Memberships { get; set; }
     }
 }
