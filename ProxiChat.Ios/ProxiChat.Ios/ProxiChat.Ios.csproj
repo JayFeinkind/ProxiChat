@@ -116,6 +116,7 @@
     <Compile Include="LoginViewController.designer.cs">
       <DependentUpon>LoginViewController.cs</DependentUpon>
     </Compile>
+    <Compile Include="AppUtilities.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
 </Project>
