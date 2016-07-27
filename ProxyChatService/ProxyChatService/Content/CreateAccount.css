@@ -3,8 +3,11 @@
     }
 
     #header-logo {
-        display: block;
+        display:block;
         margin: 0 auto;
+ max-width: 100%;
+    height: auto;
+    width: auto\9
     }
         .loader {
   border: 16px solid #f3f3f3;
@@ -62,7 +65,7 @@
 
     #password-rules {
         margin-bottom: 5px;
-        margin-top: 10px;
+        margin-top: 20px;
     }
 
     .field-label {

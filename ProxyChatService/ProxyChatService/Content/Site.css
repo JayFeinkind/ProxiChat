@@ -8,11 +8,12 @@
     border-top-left-radius: 8px;
     border-top-right-radius: 8px;
 
-    border-color:white;
-    border-top-color: #007AFF;
     
-    border-width: 2px;
-    border-style: solid;
+    border-top-color: #007AFF;
+    border-top-width: 2px;
+    
+    border-top-style: solid;
+
     background-color:white;
     margin-right: 20px;
     margin-left: 20px;
@@ -21,8 +22,10 @@
 }
 /* Set padding to keep content from hitting the edges */
 .body-content {
-    padding-left: 10px;
-    padding-right: 10px;
+    max-width: 1200px;
+    min-width: 350px;
+    display:block;
+    margin: 0 auto;
 }
 
 .spacer-2{
