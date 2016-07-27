@@ -90,6 +90,9 @@
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
     <Reference Include="Xamarin.iOS" />
+    <Reference Include="SDWebImage">
+      <HintPath>SdWebImage\SDWebImage.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ImageAsset Include="Assets.xcassets\AppIcons.appiconset\Contents.json" />
@@ -98,11 +101,14 @@
     <ImageAsset Include="Assets.xcassets\LoginBackgroundImage.imageset\gradient.png" />
     <ImageAsset Include="Assets.xcassets\LogoImage.imageset\Contents.json" />
     <ImageAsset Include="Assets.xcassets\LogoImage.imageset\LogoPC.png" />
+    <ImageAsset Include="Assets.xcassets\PlaceholderFaceImage.imageset\Contents.json" />
+    <ImageAsset Include="Assets.xcassets\PlaceholderFaceImage.imageset\placeholder.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\" />
     <Folder Include="Assets.xcassets\LoginBackgroundImage.imageset\" />
     <Folder Include="Assets.xcassets\LogoImage.imageset\" />
+    <Folder Include="Assets.xcassets\PlaceholderFaceImage.imageset\" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="LaunchScreen.storyboard" />
@@ -120,10 +126,25 @@
       <DependentUpon>LoginViewController.cs</DependentUpon>
     </Compile>
     <Compile Include="AppUtilities.cs" />
+    <Compile Include="MainNavigationController.cs" />
+    <Compile Include="MainNavigationController.designer.cs">
+      <DependentUpon>MainNavigationController.cs</DependentUpon>
+    </Compile>
     <Compile Include="MainViewController.cs" />
     <Compile Include="MainViewController.designer.cs">
       <DependentUpon>MainViewController.cs</DependentUpon>
     </Compile>
+    <Compile Include="UserListTableViewCell.cs" />
+    <Compile Include="UserListTableViewCell.designer.cs">
+      <DependentUpon>UserListTableViewCell.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ImageUtility.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\ProxiChat.Mobile\ProxiChat.Mobile.Services\ProxiChat.Mobile.Services.csproj">
+      <Project>{4302BC98-5F3E-4BEC-9BBD-E33E829FAB8E}</Project>
+      <Name>ProxiChat.Mobile.Services</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
 </Project>

@@ -45,7 +45,7 @@ namespace ProxiChat.Ios
 		public override void ViewDidAppear(bool animated)
 		{
 			base.ViewDidAppear(animated);
-
+			_loginButton.TouchDown += LoginButtonPress;
 			_createAccountButton.TouchDown += CreateNewAccountPress;
 			_passwordSwitch.ValueChanged += SwitchValueChanged;
 		}
@@ -54,6 +54,7 @@ namespace ProxiChat.Ios
 		{
 			base.ViewWillDisappear(animated);
 
+			_loginButton.TouchDown -= LoginButtonPress;
 			_createAccountButton.TouchDown -= CreateNewAccountPress;
 			_passwordSwitch.ValueChanged -= SwitchValueChanged;
 		}
@@ -76,7 +77,9 @@ namespace ProxiChat.Ios
 			}
 			else
 			{
-				//TODO initiate login, most likely should be from a pcl
+				//TODO actually authenticate
+				var controller = Storyboard.InstantiateViewController("MainNavigationController");
+				this.ShowViewController(controller, this);
 			}
 		}
 
