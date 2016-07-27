@@ -81,11 +81,21 @@ namespace ProxiChat.Ios
 		}
 
 		private void SwitchValueChanged(object sender, EventArgs e)
-		{
+		{ 
 			_passwordTextField.SecureTextEntry = !_passwordTextField.SecureTextEntry;
+
+			// This shouldn't be necessary but it solves two annoying problems.  
+			// 	1: changing SecureEntry from false to true will cause the curser to be drawn farther to the right
+			//		then it should.
+			//	2: changing SecureEntry from false to true will cause the font size to shrink. Even if you set the 
+			//		normal Text property it will be ignored./
+			_passwordTextField.AttributedText = new NSAttributedString(_passwordTextField.Text, new UIStringAttributes { 
+				Font = UIFont.SystemFontOfSize(14)
+			});
 		}
 		#endregion
 
+		#region UI styles
 		private void SetLoginButtonStyles(UIButton button)
 		{
 			// round the corners of the button
@@ -95,5 +105,6 @@ namespace ProxiChat.Ios
 			//   fill a rectangular space which hides the rounded corners
 			button.Layer.MasksToBounds = false;
 		}
+		#endregion
     }
 }
