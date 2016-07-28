@@ -11,8 +11,8 @@ using UIKit;
 
 namespace ProxiChat.Ios
 {
-    [Register ("MainNavigationController")]
-    partial class MainNavigationController
+    [Register ("MenuViewController")]
+    partial class MenuViewController
     {
         void ReleaseDesignerOutlets ()
         {

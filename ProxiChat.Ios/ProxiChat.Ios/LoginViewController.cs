@@ -78,7 +78,7 @@ namespace ProxiChat.Ios
 			else
 			{
 				//TODO actually authenticate
-				var controller = Storyboard.InstantiateViewController("MainNavigationController");
+				var controller = Storyboard.InstantiateViewController("SplitViewController");
 				this.ShowViewController(controller, this);
 			}
 		}

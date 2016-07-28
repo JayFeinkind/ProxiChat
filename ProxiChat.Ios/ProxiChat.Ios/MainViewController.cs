@@ -16,6 +16,8 @@ namespace ProxiChat.Ios
 			base.LoadView();
 			_userListTableView.BackgroundColor = UIColor.GroupTableViewBackgroundColor;
 
+			var a = this.NavigationController;
+
 			_userListTableView.RowHeight = UITableView.AutomaticDimension;
 			_userListTableView.EstimatedRowHeight = 70;
 			_userListTableView.Source = new MainUserListTableViewSource();
@@ -28,7 +30,7 @@ namespace ProxiChat.Ios
 		public override UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
 		{
 			var cell = tableView.DequeueReusableCell(UserListTableViewCell.Key) as UserListTableViewCell;
-			cell.UpdateCell(" ", "JohnApplesead", "Some text that was sent last we talked", DateTime.Now);;
+			cell.UpdateCell(" ", "JohnApplesead", "Some text that was sent last we talked", DateTime.Now);
 			return cell;
 		}
 
