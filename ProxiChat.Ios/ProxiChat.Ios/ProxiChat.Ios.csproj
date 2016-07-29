@@ -126,10 +126,6 @@
       <DependentUpon>LoginViewController.cs</DependentUpon>
     </Compile>
     <Compile Include="AppUtilities.cs" />
-    <Compile Include="MainNavigationController.cs" />
-    <Compile Include="MainNavigationController.designer.cs">
-      <DependentUpon>MainNavigationController.cs</DependentUpon>
-    </Compile>
     <Compile Include="MainViewController.cs" />
     <Compile Include="MainViewController.designer.cs">
       <DependentUpon>MainViewController.cs</DependentUpon>
@@ -139,6 +135,18 @@
       <DependentUpon>UserListTableViewCell.cs</DependentUpon>
     </Compile>
     <Compile Include="ImageUtility.cs" />
+    <Compile Include="MenuViewController.cs" />
+    <Compile Include="MenuViewController.designer.cs">
+      <DependentUpon>MenuViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MainNavigationController.cs" />
+    <Compile Include="MainNavigationController.designer.cs">
+      <DependentUpon>MainNavigationController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SplitViewController.cs" />
+    <Compile Include="SplitViewController.designer.cs">
+      <DependentUpon>SplitViewController.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\ProxiChat.Mobile\ProxiChat.Mobile.Services\ProxiChat.Mobile.Services.csproj">
