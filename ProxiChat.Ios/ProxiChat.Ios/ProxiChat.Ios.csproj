@@ -139,10 +139,6 @@
     <Compile Include="MenuViewController.designer.cs">
       <DependentUpon>MenuViewController.cs</DependentUpon>
     </Compile>
-    <Compile Include="MainNavigationController.cs" />
-    <Compile Include="MainNavigationController.designer.cs">
-      <DependentUpon>MainNavigationController.cs</DependentUpon>
-    </Compile>
     <Compile Include="SplitViewController.cs" />
     <Compile Include="SplitViewController.designer.cs">
       <DependentUpon>SplitViewController.cs</DependentUpon>

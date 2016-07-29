@@ -11,7 +11,7 @@ namespace ProxiChat.Ios
 		public static Lazy<UIImage> LoginBackgroundImage = new Lazy<UIImage>(() =>
 												   UIImage.FromBundle("LoginBackgroundImage"));
 
-		public static UIColor LoginBackgroundImageColor = UIColor.FromPatternImage(LoginBackgroundImage.Value);
+		public static UIColor DefaultNavigationColor = UIColor.Green;
 	}
 }
 

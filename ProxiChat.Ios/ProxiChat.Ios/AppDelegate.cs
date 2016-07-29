@@ -21,7 +21,7 @@ namespace ProxiChat.Ios
 			// Override point for customization after application launch.
 			// If not required for your application you can safely delete this method
 
-			UINavigationBar.Appearance.BarTintColor = ImageUtility.LoginBackgroundImageColor;
+			UINavigationBar.Appearance.BarTintColor = ImageUtility.DefaultNavigationColor;
 			UINavigationBar.Appearance.TintColor = UIColor.Orange;
 			UINavigationBar.Appearance.TitleTextAttributes = new UIStringAttributes()
 			{
