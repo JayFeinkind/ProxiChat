@@ -2,6 +2,7 @@ using Foundation;
 using System;
 using UIKit;
 using ProxiChat.Mobile.ViewModels;
+using ProxiChat.Mobile.Interfaces;
 
 namespace ProxiChat.Ios
 {
