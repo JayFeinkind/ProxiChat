@@ -16,7 +16,15 @@ namespace ProxiChat.Ios
 			base.LoadView();
 
 			var navView = UserView.Create();
-			navView.SetValues(UserName, ProfileImageUrl, ImageUtility.DefaultNavigationTextColr);
+
+			nfloat navHeight = 50;
+
+			if (NavigationController?.NavigationBar != null)
+			{
+				navHeight = NavigationController.NavigationBar.Frame.Height;
+			}
+
+			navView.SetValues(UserName, ProfileImageUrl, navHeight);
 
 			this.NavigationItem.RightBarButtonItem = new UIBarButtonItem(UIBarButtonSystemItem.Action, null);
 			this.NavigationItem.TitleView = navView;

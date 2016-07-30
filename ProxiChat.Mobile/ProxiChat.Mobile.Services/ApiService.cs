@@ -1,12 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Net.Http;
+using ProxiChat.Mobile.Interfaces;
 
 namespace ProxiChat.Mobile.Services
 {
-    public class ApiService
-    {
-    }
+	public class ApiService : IApiService
+	{
+		public bool Authenticate()
+		{
+			return true;
+		}
+	}
 }
+

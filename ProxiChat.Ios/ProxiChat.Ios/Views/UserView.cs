@@ -13,22 +13,35 @@ namespace ProxiChat.Ios
         {
         }
 
+		/// <summary>
+		/// Must be progromatically called.  Will start to instantiate view elements
+		/// </summary>
 		public static UserView Create()
 		{
 			var nib = NSBundle.MainBundle.LoadNib("UserView", null, null);
 			return Runtime.GetNSObject<UserView>(nib.ValueAt(0));
 		}
 
+		/// <summary>
+		/// replaces usual ViewDidLoad() method for xib's
+		/// </summary>
+		/// <returns>None</returns>
 		public override void AwakeFromNib()
 		{
 			_profileImageView.Layer.MasksToBounds = true;
-			_profileImageView.Layer.CornerRadius = 20;
+
 			BackgroundColor = UIColor.Clear;
 		}
 
-		public void SetValues(string userName, string profileImageUrl, UIColor textColor)
+		/// <summary>
+		/// Sets the UI values. Must be called programmatically to set up UI
+		/// </summary>
+		/// <returns>None</returns>
+		/// <param name="userName">User name.</param>
+		/// <param name="profileImageUrl">Profile image URL used to set image.</param>
+		public void SetValues(string userName, string profileImageUrl, nfloat navBarHeight)
 		{
-			_userNameLabel.TextColor = textColor;
+			_userNameLabel.TextColor = ImageUtility.DefaultNavigationTextColr;
 
 			_profileImageView.SetImage(
 				url: new NSUrl(profileImageUrl),
@@ -36,6 +49,8 @@ namespace ProxiChat.Ios
 			);
 
 			_userNameLabel.Text = userName;
+
+			_profileImageView.Layer.CornerRadius = navBarHeight / 2.0f;
 		}
     }
 }

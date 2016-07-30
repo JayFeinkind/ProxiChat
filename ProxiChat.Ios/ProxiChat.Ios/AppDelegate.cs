@@ -1,5 +1,8 @@
 ﻿using Foundation;
 using UIKit;
+using ProxiChat.Mobile.Interfaces;
+using ProxiChat.Mobile.Services;
+using ProxiChat.Mobile.ViewModels;
 
 namespace ProxiChat.Ios
 {
@@ -8,7 +11,16 @@ namespace ProxiChat.Ios
 	[Register ("AppDelegate")]
 	public class AppDelegate : UIApplicationDelegate
 	{
-		// class-level declarations
+
+		public static IDependencyService DependencyService
+		{
+			get
+			{
+				return _dependencyService;
+			}
+		}
+
+		private static IDependencyService _dependencyService;
 
 		public override UIWindow Window
 		{
@@ -27,6 +39,11 @@ namespace ProxiChat.Ios
 			{
 				ForegroundColor = ImageUtility.DefaultNavigationTextColr
 			};
+
+			_dependencyService = new DependencyService();
+			_dependencyService.RegisterInstance<IDependencyService>(_dependencyService);
+			_dependencyService.RegisterType<LoginViewModel, LoginViewModel>();
+
 
 			return true;
 		}

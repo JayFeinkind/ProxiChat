@@ -1,6 +1,7 @@
 using Foundation;
 using System;
 using UIKit;
+using ProxiChat.Mobile.ViewModels;
 
 namespace ProxiChat.Ios
 {
@@ -12,9 +13,28 @@ namespace ProxiChat.Ios
 	*/
     public partial class LoginViewController : UIViewController
     {
+		#region Fields
+		LoginViewModel _viewModel;
+		#endregion
+
+		#region Properties
+		public LoginViewModel ViewModel
+		{
+			get
+			{
+				return _viewModel;
+			}
+			set
+			{
+				_viewModel = value;
+			}
+		}
+		#endregion
+
 		#region Ctor
         public LoginViewController (IntPtr handle) : base (handle)
         {
+			_viewModel = AppDelegate.DependencyService.Resolve<LoginViewModel>();
         }
 		#endregion
 
@@ -74,13 +94,21 @@ namespace ProxiChat.Ios
 			{
 				var alert = AppUtilities.CreateGenericAlert("Oops", "User Name and Password are required to continue");
 				await PresentViewControllerAsync(alert, true);
+				return;
 			}
-			else
+
+			if (_viewModel.Authenticate())
 			{
 				//TODO actually authenticate
 				var controller = Storyboard.InstantiateViewController("SplitViewController");
 				this.ShowViewController(controller, this);
 			}
+			else
+			{
+				var alert = AppUtilities.CreateGenericAlert("Oops", "User Name and Password do not match our records");
+				await PresentViewControllerAsync(alert, true);
+			}
+
 		}
 
 		private void SwitchValueChanged(object sender, EventArgs e)
