@@ -22,10 +22,10 @@ namespace ProxiChat.Ios
 			// If not required for your application you can safely delete this method
 
 			UINavigationBar.Appearance.BarTintColor = ImageUtility.DefaultNavigationColor;
-			UINavigationBar.Appearance.TintColor = UIColor.Orange;
+			UINavigationBar.Appearance.TintColor = ImageUtility.DefaultNavigationTextColr;
 			UINavigationBar.Appearance.TitleTextAttributes = new UIStringAttributes()
 			{
-				ForegroundColor = UIColor.Orange
+				ForegroundColor = ImageUtility.DefaultNavigationTextColr
 			};
 
 			return true;
