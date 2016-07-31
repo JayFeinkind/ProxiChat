@@ -18,8 +18,8 @@
                         <constraint id="22" firstItem="4" firstAttribute="width" constant="40"/>
                     </constraints>
                 </imageView>
-                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="UserName" lineBreakMode="wordWrap" numberOfLines="0" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="5">
-                    <rect key="frame" x="70" y="290" width="525" height="20.5"/>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="UserName" lineBreakMode="tailTruncation" minimumFontSize="15" translatesAutoresizingMaskIntoConstraints="NO" id="5">
+                    <rect key="frame" x="60" y="290" width="535" height="20.5"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -31,7 +31,7 @@
                 <constraint firstItem="4" firstAttribute="centerY" secondItem="1" secondAttribute="centerY" id="10"/>
                 <constraint firstItem="4" firstAttribute="leading" secondItem="1" secondAttribute="leading" constant="10" id="11"/>
                 <constraint firstItem="5" firstAttribute="centerY" secondItem="1" secondAttribute="centerY" id="12"/>
-                <constraint firstItem="5" firstAttribute="leading" secondItem="4" secondAttribute="trailing" constant="20" id="13"/>
+                <constraint firstItem="5" firstAttribute="leading" secondItem="4" secondAttribute="trailing" constant="10" id="13"/>
                 <constraint firstAttribute="trailing" secondItem="5" secondAttribute="trailing" constant="5" id="15"/>
                 <constraint firstItem="5" firstAttribute="top" relation="greaterThanOrEqual" secondItem="1" secondAttribute="top" constant="1" id="18"/>
                 <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="5" secondAttribute="bottom" constant="1" id="19"/>
@@ -48,5 +48,7 @@
         <image name="LogoImage" width="617" height="113"/>
         <image name="PlaceholderFaceImage" width="512" height="512"/>
         <image name="PaperclipImage" width="256" height="271"/>
+        <image name="RightBubbleImage" width="117" height="52"/>
+        <image name="LeftBubbleImage" width="117" height="52"/>
     </resources>
 </document>

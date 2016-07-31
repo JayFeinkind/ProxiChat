@@ -5,6 +5,7 @@ using ProxiChat.Mobile.ViewModels;
 using CoreGraphics;
 using System.Drawing;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace ProxiChat.Ios
 {
@@ -122,8 +123,8 @@ namespace ProxiChat.Ios
 			View.AddGestureRecognizer(tap);
 		}
 
-		#endregion
-
+		#endregion
+		#region PhotoLibrary
 		private async void AddPhotoFromLibrary(UIAlertAction action)
 		{
 
@@ -150,9 +151,13 @@ namespace ProxiChat.Ios
 			newText.Append(NSAttributedString.CreateFrom(attachment));
 
 			_messageBoxTextView.AttributedText = newText;
+			(_messageBoxTextView.Delegate as ExpandingTextViewDelegate).UserEnteredText = true;
 			MessageBoxHeight.Constant = _messageBoxTextView.ContentSize.Height + 10;
 		}
 
+		#endregion
+
+		#region Add Media
 		protected async void Handle_FinishedPickingMedia(object sender, UIImagePickerMediaPickedEventArgs e)
 		{
 			// determine what was selected, video or image
@@ -189,7 +194,9 @@ namespace ProxiChat.Ios
 					_currentMessage.ImageWrappers.Add(new UIImageWrapper
 					{
 						image = originalImage,
-						ImagePosition = _messageBoxTextView.AttributedText.Length
+						ImagePosition = _messageBoxTextView.Text != MessagePlaceHolderText ?
+						                                   _messageBoxTextView.AttributedText.Length :
+						                                   0
 					});
 
 					AddMediaToTextView(originalImage); // display
@@ -230,30 +237,44 @@ namespace ProxiChat.Ios
 			}
 		}
 
+		#endregion
+
 		private void SendButtonPressed(object sender, EventArgs args)
 		{
-			if (_messageBoxTextView.AttributedText.Value == MessagePlaceHolderText)
+			if ((_messageBoxTextView.Delegate as ExpandingTextViewDelegate).UserEnteredText == false)
 				return;
-			
-			var text = _messageBoxTextView.AttributedText;
-			_messageBoxTextView.Text = string.Empty;
-			_viewModel.AddMessage(text.Value);
 
 			if (_currentMessage == null) _currentMessage = new UIMessage();
 
-			_currentMessage.AttributedText = text;
-			_currentMessage.MessageBody = text.Value;
+			_currentMessage.AttributedText = _messageBoxTextView.AttributedText;
+			_currentMessage.MessageBody = _messageBoxTextView.AttributedText.Value;
 			_currentMessage.SentByUser = true;
 			_currentMessage.TimeSent = DateTime.Now;
 
 			_uiMessages.Add(_currentMessage);
-			_currentMessage = null;
 
-			var newIndexPath = NSIndexPath.FromRowSection(_viewModel.Messages.Count - 1, 0);
+			var newIndexPath = NSIndexPath.FromRowSection(_uiMessages.Count - 1, 0);
 			_conversationTableview.BeginUpdates();
 			_conversationTableview.InsertRows(new NSIndexPath[] { newIndexPath }, UITableViewRowAnimation.Automatic);
 			_conversationTableview.EndUpdates();
 
+			var mockResponse = new UIMessage();
+			mockResponse.AttributedText = _currentMessage.AttributedText;
+			mockResponse.ImageWrappers = _currentMessage.ImageWrappers;
+			mockResponse.MessageBody = _currentMessage.MessageBody;
+			mockResponse.SentByUser = false;
+			mockResponse.TimeSent = DateTime.Now;
+
+			_uiMessages.Add(mockResponse);
+
+			_currentMessage = null;
+
+			newIndexPath = NSIndexPath.FromRowSection(_uiMessages.Count - 1, 0);
+			_conversationTableview.BeginUpdates();
+			_conversationTableview.InsertRows(new NSIndexPath[] { newIndexPath }, UITableViewRowAnimation.Automatic);
+			_conversationTableview.EndUpdates();
+
+			(_messageBoxTextView.Delegate as ExpandingTextViewDelegate).UserEnteredText = false;
 			_messageBoxTextView.Text = ConversationViewController.MessagePlaceHolderText;
 			MessageBoxHeight.Constant = _messageBoxTextView.ContentSize.Height + 10;
 		}
@@ -291,8 +312,21 @@ namespace ProxiChat.Ios
 
 		public override UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
 		{
-			var cell = tableView.DequeueReusableCell("ReceiverMessageTableViewCell") as ReceiverMessageTableViewCell;
-			cell.UpdateCell(_viewModel.ProfileImageUrl, _messages[indexPath.Row]);
+			var message = _messages[indexPath.Row];
+
+			UITableViewCell cell = null;
+
+			if (message.SentByUser)
+			{
+				cell = tableView.DequeueReusableCell("RightMessageTableViewCell");
+				((ReceiverMessageTableViewCell)cell).UpdateCell(_viewModel.ProfileImageUrl, message);
+			}
+			else
+			{
+				cell = tableView.DequeueReusableCell("LeftMessageTableViewCell");
+				((ReceiverMessageTableViewCell)cell).UpdateCell(_viewModel.ProfileImageUrl, message);
+			}
+
 			return cell;
 		}
 
@@ -303,11 +337,18 @@ namespace ProxiChat.Ios
 
 	}
 
+	/// <summary>
+	/// Handles placeholder functionality for text view.  Keeps track if user
+	/// 	enteres the text or if its the placeholder.  Any changes made programatically not
+	/// 		call these event overrides. programatically changes  will
+	/// 		have to also update these values to keep them current.
+	/// </summary>
 	public class ExpandingTextViewDelegate : UITextViewDelegate
 	{
 		NSLayoutConstraint _heightConstraint;
 		UITextView _textView;
 
+		public bool UserEnteredText { get; set; }
 
 		public ExpandingTextViewDelegate(NSLayoutConstraint heightConstraint, UITextView view)
 		{
@@ -327,7 +368,10 @@ namespace ProxiChat.Ios
 		public override bool ShouldBeginEditing(UITextView textView)
 		{
 			if (textView.Text == ConversationViewController.MessagePlaceHolderText)
+			{
 				textView.Text = string.Empty;
+				UserEnteredText = true;
+			}
 
 			return true;
 		}
@@ -335,7 +379,10 @@ namespace ProxiChat.Ios
 		public override bool ShouldEndEditing(UITextView textView)
 		{
 			if (string.IsNullOrEmpty(textView.Text))
+			{
+				UserEnteredText = false;
 				textView.Text = ConversationViewController.MessagePlaceHolderText;
+			}
 
 			return true;
 		}

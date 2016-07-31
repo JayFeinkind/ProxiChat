@@ -7,6 +7,10 @@ using SDWebImage;
 
 namespace ProxiChat.Ios
 {
+	/// <summary>
+	/// Used as a view for the navigation title on conversation page.
+	/// 	Consists of a profile image 40x40 and a label for user name.
+	/// </summary>
     public partial class UserView : UIView
     {
         public UserView (IntPtr handle) : base (handle)

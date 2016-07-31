@@ -35,7 +35,7 @@ namespace ProxiChat.Ios
 			base.LoadView();
 			_userListTableView.BackgroundColor = UIColor.GroupTableViewBackgroundColor;
 
-			var a = this.NavigationController;
+			this.NavigationItem.Title = "Proxi Users";
 
 			_userListTableView.RowHeight = UITableView.AutomaticDimension;
 			_userListTableView.EstimatedRowHeight = 70;
@@ -83,12 +83,12 @@ namespace ProxiChat.Ios
 
 		public override string TitleForHeader(UITableView tableView, nint section)
 		{
-			return "Title " + section;
+			return "Within " + (section + 1) * 5 + " Miles";
 		}
 
 		public override nint RowsInSection(UITableView tableview, nint section)
 		{
-			return 10;
+			return 3;
 		}
 
 		public override void RowSelected(UITableView tableView, NSIndexPath indexPath)

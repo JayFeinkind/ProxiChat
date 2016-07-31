@@ -112,6 +112,10 @@
     <ImageAsset Include="Assets.xcassets\RightBubbleImage.imageset\RightBubble-1.png" />
     <ImageAsset Include="Assets.xcassets\RightBubbleImage.imageset\RightBubble-2.png" />
     <ImageAsset Include="Assets.xcassets\RightBubbleImage.imageset\RightBubble.png" />
+    <ImageAsset Include="Assets.xcassets\LeftBubbleImage.imageset\Contents.json" />
+    <ImageAsset Include="Assets.xcassets\LeftBubbleImage.imageset\LeftBubble-1.png" />
+    <ImageAsset Include="Assets.xcassets\LeftBubbleImage.imageset\LeftBubble-2.png" />
+    <ImageAsset Include="Assets.xcassets\LeftBubbleImage.imageset\LeftBubble.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\" />
@@ -125,6 +129,7 @@
     <Folder Include="TableViewCells\" />
     <Folder Include="Storyboards\" />
     <Folder Include="Assets.xcassets\RightBubbleImage.imageset\" />
+    <Folder Include="Assets.xcassets\LeftBubbleImage.imageset\" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="LaunchScreen.storyboard" />

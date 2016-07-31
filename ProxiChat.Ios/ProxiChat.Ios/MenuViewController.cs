@@ -18,6 +18,7 @@ namespace ProxiChat.Ios
 		public async override void LoadView()
 		{
 			base.LoadView();
+			this.NavigationItem.Title = "Menu";
 
 			await _viewModel.Start();
 

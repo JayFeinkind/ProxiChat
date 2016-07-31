@@ -64,7 +64,7 @@ namespace ProxiChat.Ios
 					NSLayoutConstraint.Create(
 						view,
 						NSLayoutAttribute.Left,
-						NSLayoutRelation.GreaterThanOrEqual,
+						NSLayoutRelation.Equal,
 						_messageBodyView,
 						NSLayoutAttribute.Left,
 						1,

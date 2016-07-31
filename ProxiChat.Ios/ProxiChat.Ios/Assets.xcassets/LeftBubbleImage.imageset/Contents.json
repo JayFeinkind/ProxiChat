@@ -5,18 +5,18 @@
         "mode" : "9-part",
         "center" : {
           "mode" : "tile",
-          "width" : 60,
-          "height" : 15
+          "width" : 61,
+          "height" : 16
         },
         "cap-insets" : {
-          "bottom" : 18,
+          "bottom" : 17,
           "top" : 19,
-          "right" : 36,
-          "left" : 21
+          "right" : 21,
+          "left" : 35
         }
       },
       "idiom" : "universal",
-      "filename" : "RightBubble.png",
+      "filename" : "LeftBubble.png",
       "scale" : "1x"
     },
     {
@@ -24,18 +24,18 @@
         "mode" : "9-part",
         "center" : {
           "mode" : "tile",
-          "width" : 60,
+          "width" : 63,
           "height" : 15
         },
         "cap-insets" : {
-          "bottom" : 19,
-          "top" : 18,
-          "right" : 36,
-          "left" : 21
+          "bottom" : 17,
+          "top" : 20,
+          "right" : 21,
+          "left" : 33
         }
       },
       "idiom" : "universal",
-      "filename" : "RightBubble-1.png",
+      "filename" : "LeftBubble-1.png",
       "scale" : "2x"
     },
     {
@@ -44,17 +44,17 @@
         "center" : {
           "mode" : "tile",
           "width" : 60,
-          "height" : 16
+          "height" : 17
         },
         "cap-insets" : {
-          "bottom" : 18,
+          "bottom" : 17,
           "top" : 18,
-          "right" : 36,
-          "left" : 21
+          "right" : 21,
+          "left" : 36
         }
       },
       "idiom" : "universal",
-      "filename" : "RightBubble-2.png",
+      "filename" : "LeftBubble-2.png",
       "scale" : "3x"
     }
   ],
