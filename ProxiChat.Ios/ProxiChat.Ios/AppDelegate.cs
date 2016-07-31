@@ -43,7 +43,8 @@ namespace ProxiChat.Ios
 			_dependencyService = new DependencyService();
 			_dependencyService.RegisterInstance<IDependencyService>(_dependencyService);
 			_dependencyService.RegisterType<LoginViewModel, LoginViewModel>();
-
+			_dependencyService.RegisterType<ProxyUsersViewModel, ProxyUsersViewModel>();
+			_dependencyService.RegisterType<ConversationViewModel, ConversationViewModel>();
 
 			return true;
 		}

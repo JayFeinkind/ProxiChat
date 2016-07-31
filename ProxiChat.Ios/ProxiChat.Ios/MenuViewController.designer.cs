@@ -14,8 +14,16 @@ namespace ProxiChat.Ios
     [Register ("MenuViewController")]
     partial class MenuViewController
     {
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.UITableView _menuActionsTableView { get; set; }
+
         void ReleaseDesignerOutlets ()
         {
+            if (_menuActionsTableView != null) {
+                _menuActionsTableView.Dispose ();
+                _menuActionsTableView = null;
+            }
         }
     }
 }

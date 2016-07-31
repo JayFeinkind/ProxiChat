@@ -108,6 +108,10 @@
     <ImageAsset Include="Assets.xcassets\PlaceholderFaceImage.imageset\placeholder.png" />
     <ImageAsset Include="Assets.xcassets\PaperclipImage.imageset\Contents.json" />
     <ImageAsset Include="Assets.xcassets\PaperclipImage.imageset\paperclip1.png" />
+    <ImageAsset Include="Assets.xcassets\RightBubbleImage.imageset\Contents.json" />
+    <ImageAsset Include="Assets.xcassets\RightBubbleImage.imageset\RightBubble-1.png" />
+    <ImageAsset Include="Assets.xcassets\RightBubbleImage.imageset\RightBubble-2.png" />
+    <ImageAsset Include="Assets.xcassets\RightBubbleImage.imageset\RightBubble.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\" />
@@ -120,6 +124,7 @@
     <Folder Include="Views\" />
     <Folder Include="TableViewCells\" />
     <Folder Include="Storyboards\" />
+    <Folder Include="Assets.xcassets\RightBubbleImage.imageset\" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="LaunchScreen.storyboard" />
@@ -145,14 +150,6 @@
     <Compile Include="ViewControllers\LoginViewController.designer.cs">
       <DependentUpon>LoginViewController.cs</DependentUpon>
     </Compile>
-    <Compile Include="ViewControllers\MainViewController.cs" />
-    <Compile Include="ViewControllers\MainViewController.designer.cs">
-      <DependentUpon>MainViewController.cs</DependentUpon>
-    </Compile>
-    <Compile Include="ViewControllers\MenuViewController.cs" />
-    <Compile Include="ViewControllers\MenuViewController.designer.cs">
-      <DependentUpon>MenuViewController.cs</DependentUpon>
-    </Compile>
     <Compile Include="ViewControllers\SplitViewController.cs" />
     <Compile Include="ViewControllers\SplitViewController.designer.cs">
       <DependentUpon>SplitViewController.cs</DependentUpon>
@@ -168,6 +165,18 @@
     <Compile Include="TableViewCells\UserListTableViewCell.cs" />
     <Compile Include="TableViewCells\UserListTableViewCell.designer.cs">
       <DependentUpon>UserListTableViewCell.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MenuViewController.cs" />
+    <Compile Include="MenuViewController.designer.cs">
+      <DependentUpon>MenuViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ProxyUsersViewController.cs" />
+    <Compile Include="ProxyUsersViewController.designer.cs">
+      <DependentUpon>ProxyUsersViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ReceiverMessageTableViewCell.cs" />
+    <Compile Include="ReceiverMessageTableViewCell.designer.cs">
+      <DependentUpon>ReceiverMessageTableViewCell.cs</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>

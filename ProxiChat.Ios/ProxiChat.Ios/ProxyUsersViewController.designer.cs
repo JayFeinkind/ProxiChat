@@ -11,8 +11,8 @@ using UIKit;
 
 namespace ProxiChat.Ios
 {
-    [Register ("MainViewController")]
-    partial class MainViewController
+    [Register ("ProxyUsersViewController")]
+    partial class ProxyUsersViewController
     {
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]

@@ -9,5 +9,12 @@ namespace ProxiChat.Ios
         public MenuViewController (IntPtr handle) : base (handle)
         {
         }
+
+		public override void LoadView()
+		{
+			base.LoadView();
+
+
+		}
     }
 }

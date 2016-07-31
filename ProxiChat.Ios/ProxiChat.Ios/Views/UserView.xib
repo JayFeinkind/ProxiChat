@@ -15,7 +15,7 @@
                     <rect key="frame" x="10" y="280" width="40" height="40"/>
                     <constraints>
                         <constraint firstAttribute="width" secondItem="4" secondAttribute="height" multiplier="1:1" id="EzW-op-H1I"/>
-                        <constraint id="22" firstItem="4" firstAttribute="width" constant="40" relation="lessThanOrEqual"/>
+                        <constraint id="22" firstItem="4" firstAttribute="width" constant="40"/>
                     </constraints>
                 </imageView>
                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="UserName" lineBreakMode="wordWrap" numberOfLines="0" minimumFontSize="10" translatesAutoresizingMaskIntoConstraints="NO" id="5">
@@ -35,8 +35,6 @@
                 <constraint firstAttribute="trailing" secondItem="5" secondAttribute="trailing" constant="5" id="15"/>
                 <constraint firstItem="5" firstAttribute="top" relation="greaterThanOrEqual" secondItem="1" secondAttribute="top" constant="1" id="18"/>
                 <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="5" secondAttribute="bottom" constant="1" id="19"/>
-                <constraint id="25" firstItem="4" firstAttribute="top" secondItem="1" secondAttribute="top" constant="1" relation="greaterThanOrEqual"/>
-                <constraint id="26" firstItem="1" firstAttribute="bottom" secondItem="4" secondAttribute="bottom" constant="1" relation="greaterThanOrEqual"/>
             </constraints>
             <connections>
                 <outlet property="_profileImageView" destination="4" id="name-outlet-4"/>

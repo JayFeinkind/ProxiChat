@@ -29,7 +29,7 @@ namespace ProxiChat.Ios
 		public override void AwakeFromNib()
 		{
 			_profileImageView.Layer.MasksToBounds = true;
-
+			_profileImageView.Layer.CornerRadius = 20;
 			BackgroundColor = UIColor.Clear;
 		}
 
@@ -39,7 +39,7 @@ namespace ProxiChat.Ios
 		/// <returns>None</returns>
 		/// <param name="userName">User name.</param>
 		/// <param name="profileImageUrl">Profile image URL used to set image.</param>
-		public void SetValues(string userName, string profileImageUrl, nfloat navBarHeight)
+		public void SetValues(string userName, string profileImageUrl)
 		{
 			_userNameLabel.TextColor = ImageUtility.DefaultNavigationTextColr;
 
@@ -49,8 +49,6 @@ namespace ProxiChat.Ios
 			);
 
 			_userNameLabel.Text = userName;
-
-			_profileImageView.Layer.CornerRadius = navBarHeight / 2.0f;
 		}
     }
 }
