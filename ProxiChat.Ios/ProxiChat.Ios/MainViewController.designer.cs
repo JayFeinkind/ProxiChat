@@ -16,13 +16,13 @@ namespace ProxiChat.Ios
     {
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
-        UIKit.UITableView _usersTableView { get; set; }
+        UIKit.UITableView _userListTableView { get; set; }
 
         void ReleaseDesignerOutlets ()
         {
-            if (_usersTableView != null) {
-                _usersTableView.Dispose ();
-                _usersTableView = null;
+            if (_userListTableView != null) {
+                _userListTableView.Dispose ();
+                _userListTableView = null;
             }
         }
     }
