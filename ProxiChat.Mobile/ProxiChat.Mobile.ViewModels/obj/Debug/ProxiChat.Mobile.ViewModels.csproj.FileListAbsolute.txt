@@ -1,0 +1,7 @@
+\\Mac\Home\Documents\proxi-chat\ProxiChat.Mobile\ProxiChat.Mobile.ViewModels\bin\Debug\ProxiChat.Mobile.ViewModels.dll
+\\Mac\Home\Documents\proxi-chat\ProxiChat.Mobile\ProxiChat.Mobile.ViewModels\bin\Debug\ProxiChat.Mobile.ViewModels.pdb
+\\Mac\Home\Documents\proxi-chat\ProxiChat.Mobile\ProxiChat.Mobile.ViewModels\bin\Debug\Prism.dll
+\\Mac\Home\Documents\proxi-chat\ProxiChat.Mobile\ProxiChat.Mobile.ViewModels\bin\Debug\Prism.xml
+\\Mac\Home\Documents\proxi-chat\ProxiChat.Mobile\ProxiChat.Mobile.ViewModels\obj\Debug\ProxiChat.Mobile.ViewModels.csprojResolveAssemblyReference.cache
+\\Mac\Home\Documents\proxi-chat\ProxiChat.Mobile\ProxiChat.Mobile.ViewModels\obj\Debug\ProxiChat.Mobile.ViewModels.dll
+\\Mac\Home\Documents\proxi-chat\ProxiChat.Mobile\ProxiChat.Mobile.ViewModels\obj\Debug\ProxiChat.Mobile.ViewModels.pdb

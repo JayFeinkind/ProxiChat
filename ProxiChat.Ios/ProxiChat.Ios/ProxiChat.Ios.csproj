@@ -91,7 +91,10 @@
     <Reference Include="System.Core" />
     <Reference Include="Xamarin.iOS" />
     <Reference Include="SDWebImage">
-      <HintPath>SdWebImage\SDWebImage.dll</HintPath>
+      <HintPath>..\packages\Xamarin.SDWebImage.3.7.5\lib\Xamarin.iOS\SDWebImage.dll</HintPath>
+    </Reference>
+    <Reference Include="Prism">
+      <HintPath>..\packages\Prism.Core.6.1.0\lib\Xamarin.iOS10\Prism.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -103,47 +106,98 @@
     <ImageAsset Include="Assets.xcassets\LogoImage.imageset\LogoPC.png" />
     <ImageAsset Include="Assets.xcassets\PlaceholderFaceImage.imageset\Contents.json" />
     <ImageAsset Include="Assets.xcassets\PlaceholderFaceImage.imageset\placeholder.png" />
+    <ImageAsset Include="Assets.xcassets\PaperclipImage.imageset\Contents.json" />
+    <ImageAsset Include="Assets.xcassets\PaperclipImage.imageset\paperclip1.png" />
+    <ImageAsset Include="Assets.xcassets\RightBubbleImage.imageset\Contents.json" />
+    <ImageAsset Include="Assets.xcassets\RightBubbleImage.imageset\RightBubble-1.png" />
+    <ImageAsset Include="Assets.xcassets\RightBubbleImage.imageset\RightBubble-2.png" />
+    <ImageAsset Include="Assets.xcassets\RightBubbleImage.imageset\RightBubble.png" />
+    <ImageAsset Include="Assets.xcassets\LeftBubbleImage.imageset\Contents.json" />
+    <ImageAsset Include="Assets.xcassets\LeftBubbleImage.imageset\LeftBubble-1.png" />
+    <ImageAsset Include="Assets.xcassets\LeftBubbleImage.imageset\LeftBubble-2.png" />
+    <ImageAsset Include="Assets.xcassets\LeftBubbleImage.imageset\LeftBubble.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\" />
     <Folder Include="Assets.xcassets\LoginBackgroundImage.imageset\" />
     <Folder Include="Assets.xcassets\LogoImage.imageset\" />
     <Folder Include="Assets.xcassets\PlaceholderFaceImage.imageset\" />
+    <Folder Include="Assets.xcassets\PaperclipImage.imageset\" />
+    <Folder Include="ViewControllers\" />
+    <Folder Include="NavigationController\" />
+    <Folder Include="Views\" />
+    <Folder Include="TableViewCells\" />
+    <Folder Include="Storyboards\" />
+    <Folder Include="Assets.xcassets\RightBubbleImage.imageset\" />
+    <Folder Include="Assets.xcassets\LeftBubbleImage.imageset\" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="LaunchScreen.storyboard" />
     <InterfaceDefinition Include="Main.storyboard" />
+    <InterfaceDefinition Include="Views\UserView.xib" />
+    <InterfaceDefinition Include="Storyboards\Messages.storyboard" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Info.plist" />
     <None Include="Entitlements.plist" />
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
-    <Compile Include="LoginViewController.cs" />
-    <Compile Include="LoginViewController.designer.cs">
+    <Compile Include="AppUtilities.cs" />
+    <Compile Include="ImageUtility.cs" />
+    <Compile Include="ViewControllers\ConversationViewController.cs" />
+    <Compile Include="ViewControllers\ConversationViewController.designer.cs">
+      <DependentUpon>ConversationViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ViewControllers\LoginViewController.cs" />
+    <Compile Include="ViewControllers\LoginViewController.designer.cs">
       <DependentUpon>LoginViewController.cs</DependentUpon>
     </Compile>
-    <Compile Include="AppUtilities.cs" />
-    <Compile Include="MainNavigationController.cs" />
-    <Compile Include="MainNavigationController.designer.cs">
+    <Compile Include="ViewControllers\SplitViewController.cs" />
+    <Compile Include="ViewControllers\SplitViewController.designer.cs">
+      <DependentUpon>SplitViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="NavigationController\MainNavigationController.cs" />
+    <Compile Include="NavigationController\MainNavigationController.designer.cs">
       <DependentUpon>MainNavigationController.cs</DependentUpon>
     </Compile>
-    <Compile Include="MainViewController.cs" />
-    <Compile Include="MainViewController.designer.cs">
-      <DependentUpon>MainViewController.cs</DependentUpon>
+    <Compile Include="Views\UserView.cs" />
+    <Compile Include="Views\UserView.designer.cs">
+      <DependentUpon>UserView.cs</DependentUpon>
     </Compile>
-    <Compile Include="UserListTableViewCell.cs" />
-    <Compile Include="UserListTableViewCell.designer.cs">
+    <Compile Include="TableViewCells\UserListTableViewCell.cs" />
+    <Compile Include="TableViewCells\UserListTableViewCell.designer.cs">
       <DependentUpon>UserListTableViewCell.cs</DependentUpon>
     </Compile>
-    <Compile Include="ImageUtility.cs" />
+    <Compile Include="MenuViewController.cs" />
+    <Compile Include="MenuViewController.designer.cs">
+      <DependentUpon>MenuViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ProxyUsersViewController.cs" />
+    <Compile Include="ProxyUsersViewController.designer.cs">
+      <DependentUpon>ProxyUsersViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ReceiverMessageTableViewCell.cs" />
+    <Compile Include="ReceiverMessageTableViewCell.designer.cs">
+      <DependentUpon>ReceiverMessageTableViewCell.cs</DependentUpon>
+    </Compile>
+    <Compile Include="UnsubscribeNavigationController.cs" />
+    <Compile Include="IUnsubscribeViewController.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\ProxiChat.Mobile\ProxiChat.Mobile.Services\ProxiChat.Mobile.Services.csproj">
-      <Project>{4302BC98-5F3E-4BEC-9BBD-E33E829FAB8E}</Project>
+      <Project>{9BC1440B-0DAC-4BC5-B319-1E4FF7279D2B}</Project>
       <Name>ProxiChat.Mobile.Services</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\ProxiChat.Mobile\ProxiChat.Mobile.ViewModels\ProxiChat.Mobile.ViewModels.csproj">
+      <Project>{9DB48F07-E327-41AA-AFFC-0F43731D0B86}</Project>
+      <Name>ProxiChat.Mobile.ViewModels</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\ProxiChat.Mobile\ProxiChat.Mobile.Interfaces\ProxiChat.Mobile.Interfaces.csproj">
+      <Project>{7C193E07-514B-486B-AA37-F4FB3D4BAD59}</Project>
+      <Name>ProxiChat.Mobile.Interfaces</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />

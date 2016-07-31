@@ -1,0 +1,5 @@
+\\Mac\Home\Documents\proxi-chat\ProxiChat.Mobile\ProxiChat.Mobile.Interfaces\bin\Debug\ProxiChat.Mobile.Interfaces.dll
+\\Mac\Home\Documents\proxi-chat\ProxiChat.Mobile\ProxiChat.Mobile.Interfaces\bin\Debug\ProxiChat.Mobile.Interfaces.pdb
+\\Mac\Home\Documents\proxi-chat\ProxiChat.Mobile\ProxiChat.Mobile.Interfaces\obj\Debug\ProxiChat.Mobile.Interfaces.csprojResolveAssemblyReference.cache
+\\Mac\Home\Documents\proxi-chat\ProxiChat.Mobile\ProxiChat.Mobile.Interfaces\obj\Debug\ProxiChat.Mobile.Interfaces.dll
+\\Mac\Home\Documents\proxi-chat\ProxiChat.Mobile\ProxiChat.Mobile.Interfaces\obj\Debug\ProxiChat.Mobile.Interfaces.pdb
