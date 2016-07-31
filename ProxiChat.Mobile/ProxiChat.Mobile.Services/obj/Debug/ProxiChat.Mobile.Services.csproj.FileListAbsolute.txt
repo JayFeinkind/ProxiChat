@@ -1,0 +1,14 @@
+\\Mac\Home\Documents\proxi-chat\ProxiChat.Mobile\ProxiChat.Mobile.Services\bin\Debug\ProxiChat.Mobile.Services.dll
+\\Mac\Home\Documents\proxi-chat\ProxiChat.Mobile\ProxiChat.Mobile.Services\bin\Debug\ProxiChat.Mobile.Services.pdb
+\\Mac\Home\Documents\proxi-chat\ProxiChat.Mobile\ProxiChat.Mobile.Services\bin\Debug\Microsoft.Practices.ServiceLocation.dll
+\\Mac\Home\Documents\proxi-chat\ProxiChat.Mobile\ProxiChat.Mobile.Services\bin\Debug\Microsoft.Practices.Unity.dll
+\\Mac\Home\Documents\proxi-chat\ProxiChat.Mobile\ProxiChat.Mobile.Services\bin\Debug\Prism.dll
+\\Mac\Home\Documents\proxi-chat\ProxiChat.Mobile\ProxiChat.Mobile.Services\bin\Debug\ProxiChat.Mobile.Interfaces.dll
+\\Mac\Home\Documents\proxi-chat\ProxiChat.Mobile\ProxiChat.Mobile.Services\bin\Debug\ProxiChat.Mobile.Interfaces.pdb
+\\Mac\Home\Documents\proxi-chat\ProxiChat.Mobile\ProxiChat.Mobile.Services\bin\Debug\Microsoft.Practices.ServiceLocation.pdb
+\\Mac\Home\Documents\proxi-chat\ProxiChat.Mobile\ProxiChat.Mobile.Services\bin\Debug\Microsoft.Practices.ServiceLocation.xml
+\\Mac\Home\Documents\proxi-chat\ProxiChat.Mobile\ProxiChat.Mobile.Services\bin\Debug\Microsoft.Practices.Unity.xml
+\\Mac\Home\Documents\proxi-chat\ProxiChat.Mobile\ProxiChat.Mobile.Services\bin\Debug\Prism.xml
+\\Mac\Home\Documents\proxi-chat\ProxiChat.Mobile\ProxiChat.Mobile.Services\obj\Debug\ProxiChat.Mobile.Services.csprojResolveAssemblyReference.cache
+\\Mac\Home\Documents\proxi-chat\ProxiChat.Mobile\ProxiChat.Mobile.Services\obj\Debug\ProxiChat.Mobile.Services.dll
+\\Mac\Home\Documents\proxi-chat\ProxiChat.Mobile\ProxiChat.Mobile.Services\obj\Debug\ProxiChat.Mobile.Services.pdb

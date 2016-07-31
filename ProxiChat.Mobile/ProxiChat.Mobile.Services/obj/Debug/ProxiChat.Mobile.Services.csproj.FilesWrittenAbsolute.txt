@@ -1,0 +1,10 @@
+/Users/jasonbfeinkind/Documents/proxi-chat/ProxiChat.Mobile/ProxiChat.Mobile.Services/obj/Debug/.NETPortable,Version=v4.5,Profile=Profile7.AssemblyAttribute.cs
+/Users/jasonbfeinkind/Documents/proxi-chat/ProxiChat.Mobile/ProxiChat.Mobile.Services/bin/Debug/ProxiChat.Mobile.Services.dll.mdb
+/Users/jasonbfeinkind/Documents/proxi-chat/ProxiChat.Mobile/ProxiChat.Mobile.Services/bin/Debug/ProxiChat.Mobile.Services.dll
+/Users/jasonbfeinkind/Documents/proxi-chat/ProxiChat.Mobile/ProxiChat.Mobile.Services/obj/Debug/ProxiChat.Mobile.Services.dll
+/Users/jasonbfeinkind/Documents/proxi-chat/ProxiChat.Mobile/ProxiChat.Mobile.Services/obj/Debug/ProxiChat.Mobile.Services.dll.mdb
+/Users/jasonbfeinkind/Documents/proxi-chat/ProxiChat.Mobile/ProxiChat.Mobile.Services/bin/Debug/Microsoft.Practices.ServiceLocation.dll
+/Users/jasonbfeinkind/Documents/proxi-chat/ProxiChat.Mobile/ProxiChat.Mobile.Services/bin/Debug/Microsoft.Practices.Unity.dll
+/Users/jasonbfeinkind/Documents/proxi-chat/ProxiChat.Mobile/ProxiChat.Mobile.Services/bin/Debug/Prism.dll
+/Users/jasonbfeinkind/Documents/proxi-chat/ProxiChat.Mobile/ProxiChat.Mobile.Services/bin/Debug/ProxiChat.Mobile.Interfaces.dll
+/Users/jasonbfeinkind/Documents/proxi-chat/ProxiChat.Mobile/ProxiChat.Mobile.Services/bin/Debug/ProxiChat.Mobile.Interfaces.dll.mdb
