@@ -16,7 +16,7 @@ namespace ProxiChat.Ios
     {
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
-        UIKit.UILabel _messageLabel { get; set; }
+        UIKit.UIView _messageBodyView { get; set; }
 
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
@@ -24,9 +24,9 @@ namespace ProxiChat.Ios
 
         void ReleaseDesignerOutlets ()
         {
-            if (_messageLabel != null) {
-                _messageLabel.Dispose ();
-                _messageLabel = null;
+            if (_messageBodyView != null) {
+                _messageBodyView.Dispose ();
+                _messageBodyView = null;
             }
 
             if (_profileImageView != null) {

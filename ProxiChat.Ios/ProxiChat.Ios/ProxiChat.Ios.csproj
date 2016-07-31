@@ -178,6 +178,8 @@
     <Compile Include="ReceiverMessageTableViewCell.designer.cs">
       <DependentUpon>ReceiverMessageTableViewCell.cs</DependentUpon>
     </Compile>
+    <Compile Include="UnsubscribeNavigationController.cs" />
+    <Compile Include="IUnsubscribeViewController.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\ProxiChat.Mobile\ProxiChat.Mobile.Services\ProxiChat.Mobile.Services.csproj">

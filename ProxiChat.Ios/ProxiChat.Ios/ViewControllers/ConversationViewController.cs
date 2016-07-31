@@ -2,12 +2,20 @@ using Foundation;
 using System;
 using UIKit;
 using ProxiChat.Mobile.ViewModels;
+using CoreGraphics;
+using System.Drawing;
+using System.Collections.Generic;
 
 namespace ProxiChat.Ios
 {
-    public partial class ConversationViewController : UIViewController
-    {
+	public partial class ConversationViewController : UIViewController, IUnsubscribeViewController
+	{
+		public static string MessagePlaceHolderText = "Enter Message";
+
 		ConversationViewModel _viewModel;
+
+		List<UIMessage> _uiMessages = new List<UIMessage>();
+		UIMessage _currentMessage = null;
 
 		public ConversationViewModel ViewModel
 		{
@@ -21,9 +29,9 @@ namespace ProxiChat.Ios
 			}
 		}
 
-        public ConversationViewController (IntPtr handle) : base (handle)
-        {
-        }
+		public ConversationViewController(IntPtr handle) : base(handle)
+		{
+		}
 
 		public override void LoadView()
 		{
@@ -44,9 +52,10 @@ namespace ProxiChat.Ios
 			_conversationTableview.RowHeight = UITableView.AutomaticDimension;
 			_conversationTableview.EstimatedRowHeight = 100;
 
-			_conversationTableview.Source = new ConversationTableViewSource(_viewModel);
+			_conversationTableview.Source = new ConversationTableViewSource(_viewModel, _uiMessages);
 			_conversationTableview.ReloadData();
 			_sendButton.TouchDown += SendButtonPressed;
+			_paperClipButton.TouchDown += PaperclipButtonPressed;
 		}
 
 		#region Logic to move message box when keyboard is up
@@ -112,40 +121,184 @@ namespace ProxiChat.Ios
 			tap.AddTarget(() => View.EndEditing(true));
 			View.AddGestureRecognizer(tap);
 		}
-		#endregion
+
+		#endregion
+
+		private async void AddPhotoFromLibrary(UIAlertAction action)
+		{
+
+			var imagePicker = new UIImagePickerController();
+			imagePicker.SourceType = UIImagePickerControllerSourceType.PhotoLibrary;
+			imagePicker.MediaTypes = UIImagePickerController.AvailableMediaTypes(UIImagePickerControllerSourceType.PhotoLibrary);
+
+			imagePicker.FinishedPickingMedia += Handle_FinishedPickingMedia;
+			imagePicker.Canceled += Handle_Canceled;
+
+			await PresentViewControllerAsync(imagePicker, true);
+		}
+
+		private void AddMediaToTextView(UIImage image)
+		{
+			nfloat ratio = image.Size.Height / image.Size.Width;
+
+			var newSize = new CGSize(50, 50.0f * ratio);
+			;
+			var attachment = new NSTextAttachment();
+			attachment.Image = image.Scale(newSize);
+			var initialText = _messageBoxTextView.Text == MessagePlaceHolderText ? new NSAttributedString() : _messageBoxTextView.AttributedText;
+			var newText = new NSMutableAttributedString(initialText);
+			newText.Append(NSAttributedString.CreateFrom(attachment));
+
+			_messageBoxTextView.AttributedText = newText;
+			MessageBoxHeight.Constant = _messageBoxTextView.ContentSize.Height + 10;
+		}
+
+		protected async void Handle_FinishedPickingMedia(object sender, UIImagePickerMediaPickedEventArgs e)
+		{
+			// determine what was selected, video or image
+			bool isImage = false;
+			switch (e.Info[UIImagePickerController.MediaType].ToString())
+			{
+				case "public.image":
+					Console.WriteLine("Image selected");
+					isImage = true;
+					break;
+				case "public.video":
+					Console.WriteLine("Video selected");
+					break;
+			}
+
+			// get common info (shared between images and video)
+			NSUrl referenceURL = e.Info[new NSString("UIImagePickerControllerReferenceUrl")] as NSUrl;
+			if (referenceURL != null)
+				Console.WriteLine("Url:" + referenceURL.ToString());
+
+			// if it was an image, get the other image info
+			if (isImage)
+			{
+				// get the original image
+				UIImage originalImage = e.Info[UIImagePickerController.OriginalImage] as UIImage;
+				if (originalImage != null)
+				{
+					// do something with the image
+					Console.WriteLine("got the original image");
+
+					if (_currentMessage == null) _currentMessage = new UIMessage();
+					if (_currentMessage.ImageWrappers == null) _currentMessage.ImageWrappers = new List<UIImageWrapper>();
+
+					_currentMessage.ImageWrappers.Add(new UIImageWrapper
+					{
+						image = originalImage,
+						ImagePosition = _messageBoxTextView.AttributedText.Length
+					});
+
+					AddMediaToTextView(originalImage); // display
+				}
+			}
+			else { // if it's a video
+				   // get video url
+				NSUrl mediaURL = e.Info[UIImagePickerController.MediaURL] as NSUrl;
+				if (mediaURL != null)
+				{
+					Console.WriteLine(mediaURL.ToString());
+				}
+			}
+			// dismiss the picker
+			await (sender as UIImagePickerController).DismissViewControllerAsync(true);
+		}
+
+		private async void Handle_Canceled(object sender, EventArgs e)
+		{
+			await (sender as UIImagePickerController).DismissViewControllerAsync(true);
+		}
+
+		private async void PaperclipButtonPressed(object sender, EventArgs args)
+		{
+			var alert = UIAlertController.Create(string.Empty, string.Empty, UIAlertControllerStyle.ActionSheet);
+			alert.AddAction(UIAlertAction.Create("Take Photo", UIAlertActionStyle.Default, null));
+			alert.AddAction(UIAlertAction.Create("Add Media", UIAlertActionStyle.Default, AddPhotoFromLibrary));
+
+			if (UIDevice.CurrentDevice.UserInterfaceIdiom != UIUserInterfaceIdiom.Pad)
+			{
+				alert.AddAction(UIAlertAction.Create("Cancel", UIAlertActionStyle.Cancel, null));
+				await PresentViewControllerAsync(alert, true);
+			}
+			else
+			{
+				var popUp = new UIPopoverController(alert);
+				popUp.PresentFromRect(_paperClipButton.Bounds, _paperClipButton, UIPopoverArrowDirection.Any, true);
+			}
+		}
 
 		private void SendButtonPressed(object sender, EventArgs args)
 		{
-			string text = _messageBoxTextView.Text;
+			if (_messageBoxTextView.AttributedText.Value == MessagePlaceHolderText)
+				return;
+			
+			var text = _messageBoxTextView.AttributedText;
 			_messageBoxTextView.Text = string.Empty;
-			_viewModel.AddMessage(text);
+			_viewModel.AddMessage(text.Value);
+
+			if (_currentMessage == null) _currentMessage = new UIMessage();
+
+			_currentMessage.AttributedText = text;
+			_currentMessage.MessageBody = text.Value;
+			_currentMessage.SentByUser = true;
+			_currentMessage.TimeSent = DateTime.Now;
+
+			_uiMessages.Add(_currentMessage);
+			_currentMessage = null;
 
 			var newIndexPath = NSIndexPath.FromRowSection(_viewModel.Messages.Count - 1, 0);
 			_conversationTableview.BeginUpdates();
 			_conversationTableview.InsertRows(new NSIndexPath[] { newIndexPath }, UITableViewRowAnimation.Automatic);
 			_conversationTableview.EndUpdates();
+
+			_messageBoxTextView.Text = ConversationViewController.MessagePlaceHolderText;
+			MessageBoxHeight.Constant = _messageBoxTextView.ContentSize.Height + 10;
 		}
+
+		public void UnsubscribeFromEvents()
+		{
+			_sendButton.TouchDown -= SendButtonPressed;
+			_paperClipButton.TouchDown -= PaperclipButtonPressed;
+
+		}
+	}
+
+	public class UIImageWrapper
+	{
+		public UIImage image;
+		public nint ImagePosition;
+	}
+
+	public class UIMessage : Message
+	{
+		public List<UIImageWrapper> ImageWrappers{ get; set; }
+		public NSAttributedString AttributedText { get; set; }
 	}
 
 	public class ConversationTableViewSource : UITableViewSource
 	{
+		List<UIMessage> _messages;
 		ConversationViewModel _viewModel;
 
-		public ConversationTableViewSource(ConversationViewModel viewModel)
+		public ConversationTableViewSource(ConversationViewModel viewModel, List<UIMessage> messages)
 		{
 			_viewModel = viewModel;
+			_messages = messages;
 		}
 
 		public override UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
 		{
 			var cell = tableView.DequeueReusableCell("ReceiverMessageTableViewCell") as ReceiverMessageTableViewCell;
-			cell.UpdateCell(_viewModel.ProfileImageUrl, _viewModel.Messages[indexPath.Row]);
+			cell.UpdateCell(_viewModel.ProfileImageUrl, _messages[indexPath.Row]);
 			return cell;
 		}
 
 		public override nint RowsInSection(UITableView tableview, nint section)
 		{
-			return _viewModel.Messages.Count;
+			return _messages.Count;
 		}
 
 	}
@@ -154,7 +307,7 @@ namespace ProxiChat.Ios
 	{
 		NSLayoutConstraint _heightConstraint;
 		UITextView _textView;
-		private string placeholderText = "Enter Message";
+
 
 		public ExpandingTextViewDelegate(NSLayoutConstraint heightConstraint, UITextView view)
 		{
@@ -173,7 +326,7 @@ namespace ProxiChat.Ios
 
 		public override bool ShouldBeginEditing(UITextView textView)
 		{
-			if (textView.Text == placeholderText)
+			if (textView.Text == ConversationViewController.MessagePlaceHolderText)
 				textView.Text = string.Empty;
 
 			return true;
@@ -182,7 +335,7 @@ namespace ProxiChat.Ios
 		public override bool ShouldEndEditing(UITextView textView)
 		{
 			if (string.IsNullOrEmpty(textView.Text))
-				textView.Text = placeholderText;
+				textView.Text = ConversationViewController.MessagePlaceHolderText;
 
 			return true;
 		}

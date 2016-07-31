@@ -24,6 +24,10 @@ namespace ProxiChat.Ios
 
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.UIButton _paperClipButton { get; set; }
+
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
         UIKit.UIButton _sendButton { get; set; }
 
         [Outlet]
@@ -44,6 +48,11 @@ namespace ProxiChat.Ios
             if (_messageBoxTextView != null) {
                 _messageBoxTextView.Dispose ();
                 _messageBoxTextView = null;
+            }
+
+            if (_paperClipButton != null) {
+                _paperClipButton.Dispose ();
+                _paperClipButton = null;
             }
 
             if (_sendButton != null) {
