@@ -49,7 +49,7 @@
                                                 <constraint id="131" firstItem="90" firstAttribute="leading" secondItem="130" secondAttribute="trailing" constant="20"/>
                                                 <constraint id="132" firstItem="130" firstAttribute="leading" secondItem="11" secondAttribute="leading" constant="20" relation="greaterThanOrEqual"/>
                                                 <constraint id="133" firstItem="130" firstAttribute="top" secondItem="11" secondAttribute="top" constant="1" relation="greaterThanOrEqual"/>
-                                                <constraint id="134" firstItem="11" firstAttribute="bottom" secondItem="130" secondAttribute="bottom" constant="10" relation="greaterThanOrEqual"/>
+                                                <constraint id="134" firstItem="11" firstAttribute="bottom" secondItem="130" secondAttribute="bottom" constant="20" relation="greaterThanOrEqual"/>
                                                 <constraint id="135" firstItem="130" firstAttribute="top" secondItem="120" secondAttribute="top" constant="9"/>
                                                 <constraint id="136" firstItem="120" firstAttribute="leading" secondItem="130" secondAttribute="leading" constant="-10"/>
                                                 <constraint id="137" firstItem="120" firstAttribute="bottom" secondItem="130" secondAttribute="bottom" constant="5"/>
@@ -86,7 +86,7 @@
                                                 <constraint id="146" firstItem="144" firstAttribute="leading" secondItem="143" secondAttribute="leading" constant="20"/>
                                                 <constraint id="151" firstItem="150" firstAttribute="leading" secondItem="144" secondAttribute="trailing" constant="20"/>
                                                 <constraint id="152" firstItem="150" firstAttribute="top" secondItem="143" secondAttribute="top" constant="1" relation="greaterThanOrEqual"/>
-                                                <constraint id="153" firstItem="143" firstAttribute="bottom" secondItem="150" secondAttribute="bottom" constant="10" relation="greaterThanOrEqual"/>
+                                                <constraint id="153" firstItem="143" firstAttribute="bottom" secondItem="150" secondAttribute="bottom" constant="20" relation="greaterThanOrEqual"/>
                                                 <constraint id="154" firstItem="143" firstAttribute="trailing" secondItem="150" secondAttribute="trailing" constant="20" relation="greaterThanOrEqual"/>
                                                 <constraint id="155" firstItem="150" firstAttribute="top" secondItem="149" secondAttribute="top" constant="9"/>
                                                 <constraint id="156" firstItem="149" firstAttribute="trailing" secondItem="150" secondAttribute="trailing" constant="10"/>
@@ -120,7 +120,7 @@
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="40" translatesAutoresizingMaskIntoConstraints="NO">
                                         <rect key="frame" x="534" y="6.5" width="46" height="30"/>
-                                        <state key="normal" title="Send">
+                                        <state key="normal" backgroundImage="SendMessageImage">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <connections/>
@@ -200,5 +200,6 @@
         <image name="PaperclipImage" width="256" height="271"/>
         <image name="RightBubbleImage" width="117" height="52"/>
         <image name="LeftBubbleImage" width="117" height="52"/>
+        <image name="SendMessageImage" width="125" height="96"/>
     </resources>
 </document>

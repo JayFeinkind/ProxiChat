@@ -6,6 +6,9 @@ using CoreGraphics;
 using System.Drawing;
 using System.Collections.Generic;
 using System.Linq;
+using MobileCoreServices;
+using MediaPlayer;
+using System.IO;
 
 namespace ProxiChat.Ios
 {
@@ -132,8 +135,8 @@ namespace ProxiChat.Ios
 			imagePicker.SourceType = UIImagePickerControllerSourceType.PhotoLibrary;
 			imagePicker.MediaTypes = UIImagePickerController.AvailableMediaTypes(UIImagePickerControllerSourceType.PhotoLibrary);
 
-			imagePicker.FinishedPickingMedia += Handle_FinishedPickingMedia;
-			imagePicker.Canceled += Handle_Canceled;
+			imagePicker.FinishedPickingMedia += HandleFinishedPickingMedia;
+			imagePicker.Canceled += HandleCancel;
 
 			await PresentViewControllerAsync(imagePicker, true);
 		}
@@ -157,8 +160,37 @@ namespace ProxiChat.Ios
 
 		#endregion
 
+
+
+		private async void AddFromCamera()
+		{
+			try
+			{
+				var imagePicker = new UIImagePickerController();
+
+				if (UIImagePickerController.IsSourceTypeAvailable(UIImagePickerControllerSourceType.Camera))
+				{
+					imagePicker.SourceType = UIImagePickerControllerSourceType.Camera;
+					imagePicker.ShowsCameraControls = true;
+					imagePicker.MediaTypes = new string[] { UTType.Image, UTType.Video };
+					imagePicker.ModalPresentationStyle = UIModalPresentationStyle.FormSheet;
+					imagePicker.FinishedPickingMedia += HandleFinishedPickingMedia;
+					imagePicker.Canceled += HandleCancel;
+					await PresentViewControllerAsync(imagePicker, true);
+				}
+				else
+				{
+					var alert = AppUtilities.CreateGenericAlert("Sorry", "No access to camera");
+				}
+			}
+			catch (Exception e)
+			{
+				throw e;
+			}
+		}
+
 		#region Add Media
-		protected async void Handle_FinishedPickingMedia(object sender, UIImagePickerMediaPickedEventArgs e)
+		protected async void HandleFinishedPickingMedia(object sender, UIImagePickerMediaPickedEventArgs e)
 		{
 			// determine what was selected, video or image
 			bool isImage = false;
@@ -173,8 +205,13 @@ namespace ProxiChat.Ios
 					break;
 			}
 
+			if (_currentMessage == null) _currentMessage = new UIMessage();
+			if (_currentMessage.ImageWrappers == null) _currentMessage.ImageWrappers = new List<UIImageWrapper>();
+
+
 			// get common info (shared between images and video)
 			NSUrl referenceURL = e.Info[new NSString("UIImagePickerControllerReferenceUrl")] as NSUrl;
+
 			if (referenceURL != null)
 				Console.WriteLine("Url:" + referenceURL.ToString());
 
@@ -188,9 +225,6 @@ namespace ProxiChat.Ios
 					// do something with the image
 					Console.WriteLine("got the original image");
 
-					if (_currentMessage == null) _currentMessage = new UIMessage();
-					if (_currentMessage.ImageWrappers == null) _currentMessage.ImageWrappers = new List<UIImageWrapper>();
-
 					_currentMessage.ImageWrappers.Add(new UIImageWrapper
 					{
 						image = originalImage,
@@ -202,11 +236,32 @@ namespace ProxiChat.Ios
 					AddMediaToTextView(originalImage); // display
 				}
 			}
-			else { // if it's a video
+			else 
+			{ 
+				// if it's a video
 				   // get video url
 				NSUrl mediaURL = e.Info[UIImagePickerController.MediaURL] as NSUrl;
+				var videoData = NSData.FromUrl(mediaURL);
+
+				var movie = new MPMoviePlayerController(mediaURL);
+				movie.ShouldAutoplay = false;
+				double videoPositionSec = 1;
+				UIImage videoThumbnail = movie.ThumbnailImageAt(videoPositionSec, MPMovieTimeOption.NearestKeyFrame);
+
 				if (mediaURL != null)
 				{
+					_currentMessage.ImageWrappers.Add(new UIImageWrapper
+					{
+						image = videoThumbnail,
+						IsVideo = true,
+						VideoData = videoData,
+						ImagePosition = _messageBoxTextView.Text != MessagePlaceHolderText ?
+														   _messageBoxTextView.AttributedText.Length :
+														   0
+					});
+
+					AddMediaToTextView(videoThumbnail);
+
 					Console.WriteLine(mediaURL.ToString());
 				}
 			}
@@ -214,7 +269,7 @@ namespace ProxiChat.Ios
 			await (sender as UIImagePickerController).DismissViewControllerAsync(true);
 		}
 
-		private async void Handle_Canceled(object sender, EventArgs e)
+		private async void HandleCancel(object sender, EventArgs e)
 		{
 			await (sender as UIImagePickerController).DismissViewControllerAsync(true);
 		}
@@ -289,8 +344,10 @@ namespace ProxiChat.Ios
 
 	public class UIImageWrapper
 	{
-		public UIImage image;
-		public nint ImagePosition;
+		public UIImage image { get; set; }
+		public nint ImagePosition { get; set; }
+		public NSData VideoData { get; set; }
+		public bool IsVideo { get; set; }
 	}
 
 	public class UIMessage : Message
@@ -388,3 +445,4 @@ namespace ProxiChat.Ios
 		}
 	}
 }
+		

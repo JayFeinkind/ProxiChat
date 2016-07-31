@@ -93,7 +93,7 @@ namespace ProxiChat.Ios
 			if (string.IsNullOrWhiteSpace(_passwordTextField.Text) || 
 				string.IsNullOrWhiteSpace(_userNameTextField.Text))
 			{
-				var alert = AppUtilities.CreateGenericAlert("Oops", "User Name and Password are required to continue");
+				var alert = AppUtilities.CreateGenericAlert("Sorry", "User Name and Password are required to continue");
 				await PresentViewControllerAsync(alert, true);
 				return;
 			}
@@ -106,7 +106,7 @@ namespace ProxiChat.Ios
 			}
 			else
 			{
-				var alert = AppUtilities.CreateGenericAlert("Oops", "User Name and Password do not match our records");
+				var alert = AppUtilities.CreateGenericAlert("Sorry", "User Name and Password do not match our records");
 				await PresentViewControllerAsync(alert, true);
 			}
 
