@@ -14,7 +14,7 @@ namespace ProxiChat.Ios
 		// RGB value of the left most part of the the login gradient
 		public static UIColor DefaultNavigationColor = UIColor.FromRGB(52, 172, 73);
 
-		public static UIColor DefaultNavigationTextColr = UIColor.Black;
+		public static UIColor DefaultNavigationTextColr = UIColor.White;
 	}
 }
 
