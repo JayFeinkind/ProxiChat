@@ -9,6 +9,8 @@ using System.Linq;
 using MobileCoreServices;
 using MediaPlayer;
 using System.IO;
+using System.Threading.Tasks;
+using AVFoundation;
 
 namespace ProxiChat.Ios
 {
@@ -56,10 +58,15 @@ namespace ProxiChat.Ios
 			_conversationTableview.RowHeight = UITableView.AutomaticDimension;
 			_conversationTableview.EstimatedRowHeight = 100;
 
-			_conversationTableview.Source = new ConversationTableViewSource(_viewModel, _uiMessages);
+			_conversationTableview.Source = new ConversationTableViewSource(_viewModel, _uiMessages, ShowViewController);
 			_conversationTableview.ReloadData();
 			_sendButton.TouchDown += SendButtonPressed;
 			_paperClipButton.TouchDown += PaperclipButtonPressed;
+		}
+
+		private async void ShowViewController(UIViewController viewController)
+		{
+			await PresentViewControllerAsync(viewController, true);
 		}
 
 		#region Logic to move message box when keyboard is up
@@ -146,7 +153,7 @@ namespace ProxiChat.Ios
 			nfloat ratio = image.Size.Height / image.Size.Width;
 
 			var newSize = new CGSize(50, 50.0f * ratio);
-			;
+
 			var attachment = new NSTextAttachment();
 			attachment.Image = image.Scale(newSize);
 			var initialText = _messageBoxTextView.Text == MessagePlaceHolderText ? new NSAttributedString() : _messageBoxTextView.AttributedText;
@@ -159,8 +166,6 @@ namespace ProxiChat.Ios
 		}
 
 		#endregion
-
-
 
 		private async void AddFromCamera()
 		{
@@ -181,6 +186,7 @@ namespace ProxiChat.Ios
 				else
 				{
 					var alert = AppUtilities.CreateGenericAlert("Sorry", "No access to camera");
+					await PresentViewControllerAsync(alert, true);
 				}
 			}
 			catch (Exception e)
@@ -227,6 +233,7 @@ namespace ProxiChat.Ios
 
 					_currentMessage.ImageWrappers.Add(new UIImageWrapper
 					{
+						InteractionAction = UserTappedMedia,
 						image = originalImage,
 						ImagePosition = _messageBoxTextView.Text != MessagePlaceHolderText ?
 						                                   _messageBoxTextView.AttributedText.Length :
@@ -241,7 +248,6 @@ namespace ProxiChat.Ios
 				// if it's a video
 				   // get video url
 				NSUrl mediaURL = e.Info[UIImagePickerController.MediaURL] as NSUrl;
-				var videoData = NSData.FromUrl(mediaURL);
 
 				var movie = new MPMoviePlayerController(mediaURL);
 				movie.ShouldAutoplay = false;
@@ -254,7 +260,7 @@ namespace ProxiChat.Ios
 					{
 						image = videoThumbnail,
 						IsVideo = true,
-						VideoData = videoData,
+						VideoData = mediaURL,
 						ImagePosition = _messageBoxTextView.Text != MessagePlaceHolderText ?
 														   _messageBoxTextView.AttributedText.Length :
 														   0
@@ -313,22 +319,14 @@ namespace ProxiChat.Ios
 			_conversationTableview.InsertRows(new NSIndexPath[] { newIndexPath }, UITableViewRowAnimation.Automatic);
 			_conversationTableview.EndUpdates();
 
-			var mockResponse = new UIMessage();
-			mockResponse.AttributedText = _currentMessage.AttributedText;
-			mockResponse.ImageWrappers = _currentMessage.ImageWrappers;
-			mockResponse.MessageBody = _currentMessage.MessageBody;
-			mockResponse.SentByUser = false;
-			mockResponse.TimeSent = DateTime.Now;
-
-			_uiMessages.Add(mockResponse);
-
 			_currentMessage = null;
 
-			newIndexPath = NSIndexPath.FromRowSection(_uiMessages.Count - 1, 0);
-			_conversationTableview.BeginUpdates();
-			_conversationTableview.InsertRows(new NSIndexPath[] { newIndexPath }, UITableViewRowAnimation.Automatic);
-			_conversationTableview.EndUpdates();
+			// reset message box values
+			ResetMessageBoxValues();
+		}
 
+		private void ResetMessageBoxValues()
+		{
 			(_messageBoxTextView.Delegate as ExpandingTextViewDelegate).UserEnteredText = false;
 			_messageBoxTextView.Text = ConversationViewController.MessagePlaceHolderText;
 			MessageBoxHeight.Constant = _messageBoxTextView.ContentSize.Height + 10;
@@ -340,14 +338,93 @@ namespace ProxiChat.Ios
 			_paperClipButton.TouchDown -= PaperclipButtonPressed;
 
 		}
+
+		private void UserTappedMedia(UIImageWrapper wrapper)
+		{;
+			var viewController = new UIViewController();
+			viewController.View.BackgroundColor = UIColor.White;
+
+			if (wrapper.IsVideo)
+			{
+				AddVideoToViewController(viewController, wrapper.VideoData);
+			}
+			else
+			{
+				AddImageToViewController(viewController, wrapper.image);
+			}
+
+			NavigationController.PushViewController(viewController, true);
+		}
+
+		private void AddVideoToViewController(UIViewController viewController, NSUrl videoData)
+		{
+			var asset = AVAsset.FromUrl(videoData);
+			var playerItem = new AVPlayerItem(asset);
+			var player = new AVPlayer(playerItem);
+			var playerLayer = AVPlayerLayer.FromPlayer(player);
+
+			viewController.View.Layer.AddSublayer(playerLayer);
+		}
+
+		private void AddImageToViewController(UIViewController viewController, UIImage image)
+		{
+			var imageView = new UIImageView();
+			imageView.ContentMode = UIViewContentMode.ScaleAspectFit;
+			imageView.Image = image;
+			imageView.TranslatesAutoresizingMaskIntoConstraints = false;
+			viewController.View.AddSubview(imageView);
+
+			AddConstraints(viewController.View, imageView);
+		}
+
+		private void AddConstraints(UIView view, UIView imageView)
+		{
+			view.AddConstraint(
+				NSLayoutConstraint.Create
+				(view,
+				 NSLayoutAttribute.Left,
+				 NSLayoutRelation.Equal,
+				 imageView,
+				 NSLayoutAttribute.Left,
+				 1,
+				 0));
+			view.AddConstraint(
+				NSLayoutConstraint.Create
+				(view,
+				 NSLayoutAttribute.Top,
+				 NSLayoutRelation.Equal,
+				 imageView,
+				 NSLayoutAttribute.Top,
+				 1,
+				 0));
+			view.AddConstraint(
+				NSLayoutConstraint.Create
+				(view,
+				 NSLayoutAttribute.Right,
+				 NSLayoutRelation.Equal,
+				 imageView,
+				 NSLayoutAttribute.Right,
+				 1,
+				 0));
+			view.AddConstraint(
+				NSLayoutConstraint.Create
+				(view,
+				 NSLayoutAttribute.Bottom,
+				 NSLayoutRelation.Equal,
+				 imageView,
+				 NSLayoutAttribute.Bottom,
+				 1,
+				 0));
+		}
 	}
 
 	public class UIImageWrapper
 	{
 		public UIImage image { get; set; }
 		public nint ImagePosition { get; set; }
-		public NSData VideoData { get; set; }
+		public NSUrl VideoData { get; set; }
 		public bool IsVideo { get; set; }
+		public Action<UIImageWrapper> InteractionAction { get; set; }
 	}
 
 	public class UIMessage : Message
@@ -360,9 +437,11 @@ namespace ProxiChat.Ios
 	{
 		List<UIMessage> _messages;
 		ConversationViewModel _viewModel;
+		Action<UIViewController> _showViewController;
 
-		public ConversationTableViewSource(ConversationViewModel viewModel, List<UIMessage> messages)
+		public ConversationTableViewSource(ConversationViewModel viewModel, List<UIMessage> messages, Action<UIViewController> showViewController)
 		{
+			_showViewController = showViewController;
 			_viewModel = viewModel;
 			_messages = messages;
 		}
@@ -372,19 +451,52 @@ namespace ProxiChat.Ios
 			var message = _messages[indexPath.Row];
 
 			UITableViewCell cell = null;
+			string profileUrl = string.Empty;
 
 			if (message.SentByUser)
 			{
+				profileUrl = "https://www.cheme.cornell.edu/engineering2/customcf" + 
+					"/iws_ai_faculty_display/ai_images/mjp31-profile.jpg";
+				
 				cell = tableView.DequeueReusableCell("RightMessageTableViewCell");
-				((ReceiverMessageTableViewCell)cell).UpdateCell(_viewModel.ProfileImageUrl, message);
 			}
 			else
 			{
 				cell = tableView.DequeueReusableCell("LeftMessageTableViewCell");
-				((ReceiverMessageTableViewCell)cell).UpdateCell(_viewModel.ProfileImageUrl, message);
+				profileUrl = _viewModel.ProfileImageUrl;
 			}
 
+			cell.SelectionStyle = UITableViewCellSelectionStyle.None;
+			
+			((ReceiverMessageTableViewCell)cell).GestureRecognizer = new UILongPressGestureRecognizer(() =>
+			{
+				var alert = UIAlertController.Create(string.Empty, string.Empty, UIAlertControllerStyle.ActionSheet);
+				alert.AddAction(UIAlertAction.Create("Copy text", UIAlertActionStyle.Default, null));
+				alert.AddAction(UIAlertAction.Create("Delete", UIAlertActionStyle.Destructive, (action) =>
+				{
+					DeleteMessage(message, tableView);
+				}));
+				alert.AddAction(UIAlertAction.Create("Cancel", UIAlertActionStyle.Cancel, null));
+
+				if (_showViewController != null)
+				{
+					_showViewController(alert);
+				}
+			});
+
+			((ReceiverMessageTableViewCell)cell).UpdateCell(profileUrl, message);
+
 			return cell;
+		}
+
+		private void DeleteMessage(UIMessage message, UITableView tableView)
+		{
+			var index = _messages.IndexOf(message);
+			_messages.Remove(message);
+
+			tableView.BeginUpdates();
+			tableView.DeleteRows(new NSIndexPath[] { NSIndexPath.FromRowSection(index, 0) }, UITableViewRowAnimation.Automatic);
+			tableView.EndUpdates();
 		}
 
 		public override nint RowsInSection(UITableView tableview, nint section)

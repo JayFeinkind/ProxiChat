@@ -357,7 +357,9 @@
         <image name="LogoImage" width="617" height="113"/>
         <image name="PlaceholderFaceImage" width="512" height="512"/>
         <image name="PaperclipImage" width="256" height="271"/>
-        <image name="RightBubbleImage" width="123" height="59"/>
+        <image name="RightBubbleImage" width="117" height="52"/>
+        <image name="LeftBubbleImage" width="117" height="52"/>
+        <image name="SendMessageImage" width="125" height="96"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedScreenMetrics key="destination" type="retina47"/>

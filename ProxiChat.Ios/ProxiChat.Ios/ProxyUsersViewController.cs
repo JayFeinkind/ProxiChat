@@ -6,7 +6,7 @@ using ProxiChat.Mobile.Interfaces;
 
 namespace ProxiChat.Ios
 {
-    public partial class ProxyUsersViewController : UIViewController
+	public partial class ProxyUsersViewController : UIViewController, IUnsubscribeViewController
     {
 		ProxyUsersViewModel _viewModel;
 
@@ -56,6 +56,14 @@ namespace ProxiChat.Ios
 				controller.ViewModel = viewModel as ConversationViewModel;
 
 				this.NavigationController.PushViewController(controller, true);
+			}
+		}
+
+		public void UnsubscribeFromEvents()
+		{
+			if (_viewModel != null)
+			{
+				_viewModel.ViewModelNavigationRequested -= OnViewModelNavigationRequested;
 			}
 		}
 	}
