@@ -11,7 +11,12 @@ namespace ProxiChat.Ios
 {
     public partial class ReceiverMessageTableViewCell : UITableViewCell
     {
+		/// <summary>
+		/// keep track of added views so they can be removed before reuse
+		/// </summary>
 		List<UIView> _messageViews = new List<UIView>();
+
+		public UILongPressGestureRecognizer GestureRecognizer { get; set; }
 
         public ReceiverMessageTableViewCell (IntPtr handle) : base (handle)
         {
@@ -20,6 +25,9 @@ namespace ProxiChat.Ios
 		public override void PrepareForReuse()
 		{
 			base.PrepareForReuse();
+
+			if (GestureRecognizer != null)
+				ContentView.RemoveGestureRecognizer(GestureRecognizer);
 
 			foreach (var view in _messageViews)
 			{
@@ -170,7 +178,10 @@ namespace ProxiChat.Ios
 
 				if (imageWrapper.ImagePosition > 0)
 				{
-					var label = AddMessageLabel(message.MessageBody.Substring(currentPosition, (int)imageWrapper.ImagePosition - 1));
+					var label = AddMessageLabel(
+						message.MessageBody.Substring(currentPosition,
+						(int)imageWrapper.ImagePosition - 1));
+					
 					currentPosition += (int)imageWrapper.ImagePosition;
 
 					_messageViews.Add(label);
@@ -178,9 +189,14 @@ namespace ProxiChat.Ios
 
 				var image = imageWrapper.image;
 				nfloat ratio = image.Size.Height / image.Size.Width;
-				var newSize = new CGSize(80, 80.0f * ratio);
+				var newSize = new CGSize(100, 100.0f * ratio);
 
 				var imageView = AddImageView(image, newSize);
+
+				imageView.UserInteractionEnabled = true;
+				imageView.AddGestureRecognizer(new UITapGestureRecognizer(() =>
+				                                imageWrapper.InteractionAction(imageWrapper)));
+
 				SetImageConstraints(imageView, newSize.Height, newSize.Width);
 				_messageViews.Add(imageView);
 			}
@@ -193,8 +209,36 @@ namespace ProxiChat.Ios
 		}
 		#endregion
 
+		private void SetProfileImage(string url)
+		{
+			// required to round image to a circle
+			_profileImageView.Layer.MasksToBounds = true;
+			_profileImageView.Layer.CornerRadius = 25.0f;
+
+			if (!string.IsNullOrWhiteSpace(url))
+			{
+				// if url is invalid it will throw an exception when instantiating NSUrl()
+				try
+				{
+					_profileImageView.SetImage(new NSUrl(url), ImageUtility.UserProfileImagePlaceHolder.Value);
+				}
+				catch
+				{
+					_profileImageView.Image = ImageUtility.UserProfileImagePlaceHolder.Value;
+				}
+			}
+			else
+			{
+				_profileImageView.Image = ImageUtility.UserProfileImagePlaceHolder.Value;
+			}
+		}
+
 		public void UpdateCell(string url, UIMessage message)
 		{
+			ContentView.UserInteractionEnabled = true;
+
+			if (GestureRecognizer != null)
+				ContentView.AddGestureRecognizer(GestureRecognizer);
 
 			if (message?.ImageWrappers != null && message.ImageWrappers.Count > 0)
 			{
@@ -213,26 +257,7 @@ namespace ProxiChat.Ios
 
 			SetContentConstraints();
 
-			// required to round image to a circle
-			_profileImageView.Layer.MasksToBounds = true;
-			_profileImageView.Layer.CornerRadius = 25.0f;
-
-			if (!string.IsNullOrWhiteSpace(url))
-			{
-				// if url is invalid it will throw an exception when instantiating NSUrl()
-				try
-				{
-					_profileImageView.SetImage(new NSUrl(url), ImageUtility.UserProfileImagePlaceHolder.Value);
-				}
-				catch 
-				{
-					_profileImageView.Image = ImageUtility.UserProfileImagePlaceHolder.Value;
-				}
-			}
-			else
-			{
-				_profileImageView.Image = ImageUtility.UserProfileImagePlaceHolder.Value;
-			}
+			SetProfileImage(url);
 		}
     }
 }

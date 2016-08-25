@@ -23,7 +23,7 @@ namespace ProxiChat.Ios
 			await _viewModel.Start();
 
 			_viewModel.ViewModelNavigationRequested += OnViewModelNavigationRequested;
-
+			_menuActionsTableView.TableFooterView = new UIView();
 			_menuActionsTableView.Source = new MenuTableViewSource(_viewModel);
 			_menuActionsTableView.ReloadData();
 		}
@@ -57,6 +57,7 @@ namespace ProxiChat.Ios
 								new UITableViewCell(UITableViewCellStyle.Default, defaultCellKey);
 
 			cell.TextLabel.Text = _viewModel.MenuActions[indexPath.Row].Key;
+			cell.Accessory = UITableViewCellAccessory.DisclosureIndicator;
 			return cell;
 		}
 
