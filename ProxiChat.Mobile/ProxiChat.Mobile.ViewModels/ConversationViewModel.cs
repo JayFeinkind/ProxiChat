@@ -35,7 +35,6 @@ namespace ProxiChat.Mobile.ViewModels
 
 		public void AddMessage(string message)
 		{
-			
 			_messages.Add(new Message {
 				TimeSent = DateTime.Now,
 				MessageBody = message,
@@ -48,6 +47,10 @@ namespace ProxiChat.Mobile.ViewModels
 	{
 		public DateTime TimeSent { get; set; }
 		public string MessageBody { get; set; }
+
+		public int SenderId { get; set; }
+		public int ReceiverId { get; set; }
+
 		public bool SentByUser { get; set; }
 	}
 }
