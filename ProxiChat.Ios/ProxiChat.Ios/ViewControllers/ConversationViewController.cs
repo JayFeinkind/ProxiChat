@@ -16,11 +16,14 @@ namespace ProxiChat.Ios
 {
 	public partial class ConversationViewController : UIViewController, IUnsubscribeViewController
 	{
+		// Keep static reference for comparison
 		public static string MessagePlaceHolderText = "Enter Message";
 
 		ConversationViewModel _viewModel;
 
 		List<UIMessage> _uiMessages = new List<UIMessage>();
+
+		// Holds info placed into message box, represents current message body
 		UIMessage _currentMessage = null;
 
 		public ConversationViewModel ViewModel
@@ -43,11 +46,14 @@ namespace ProxiChat.Ios
 		{
 			base.LoadView();
 
+			// create custom view for the navigation bar to hold profile image 
+			//		and username of person user is chatting with
 			var navView = UserView.Create();
 			navView.SetValues(_viewModel.UserName, _viewModel.ProfileImageUrl);
-
-			this.NavigationItem.RightBarButtonItem = new UIBarButtonItem(UIBarButtonSystemItem.Action, null);
 			this.NavigationItem.TitleView = navView;
+
+			//TODO button should probably do something
+			this.NavigationItem.RightBarButtonItem = new UIBarButtonItem(UIBarButtonSystemItem.Action, null);
 
 			// handle moving the message box up when keyboard is visible
 			RegisterForKeyboardNotifications();
@@ -55,15 +61,22 @@ namespace ProxiChat.Ios
 
 			_messageBoxTextView.Delegate = new ExpandingTextViewDelegate(MessageBoxHeight, _messageBoxTextView);
 
+			// UITableView.AutomaticDimension is used to allow the os auto layout determine height
 			_conversationTableview.RowHeight = UITableView.AutomaticDimension;
+ 			// specifying an estimated height is required for Automatic Dimensions to workk
 			_conversationTableview.EstimatedRowHeight = 100;
 
 			_conversationTableview.Source = new ConversationTableViewSource(_viewModel, _uiMessages, ShowViewController);
 			_conversationTableview.ReloadData();
+
 			_sendButton.TouchDown += SendButtonPressed;
 			_paperClipButton.TouchDown += PaperclipButtonPressed;
 		}
 
+		/// <summary>
+		/// Wrap PresentViewControllerAsync so that it can be awaited, it is passed to the table source as an Action<UIviewController>
+		/// </summary>
+		/// <param name="viewController">View controller.</param>
 		private async void ShowViewController(UIViewController viewController)
 		{
 			await PresentViewControllerAsync(viewController, true);
@@ -339,8 +352,10 @@ namespace ProxiChat.Ios
 
 		}
 
+		#region Navigate To Media
+
 		private void UserTappedMedia(UIImageWrapper wrapper)
-		{;
+		{
 			var viewController = new UIViewController();
 			viewController.View.BackgroundColor = UIColor.White;
 
@@ -417,6 +432,8 @@ namespace ProxiChat.Ios
 				 0));
 		}
 	}
+
+	#endregion
 
 	public class UIImageWrapper
 	{
